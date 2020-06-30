@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import SecondaryStructureTools
-import GraphDrawer
-import XML_Generator
-import DataStructures
+from . import SecondaryStructureTools
+from . import GraphDrawer
+from . import XML_Generator
+from . import DataStructures

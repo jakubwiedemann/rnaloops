@@ -2,17 +2,18 @@
 import config
 import os
 from Modes.MultipleCustom import multiple_file_custom_mode, multiple_files_from_pdbee
-
+from pathlib import Path
 
 if __name__ == "__main__":
 
     # Setting directories
-    if not os.path.exists('./output'):
-        os.makedirs('output')
-    if not os.path.exists('./output/structures'):
-        os.makedirs('./output/structures')
-    if not os.path.exists('./PDB_files'):
-        os.makedirs('PDB_files')
+
+    if not os.path.exists(Path('./output')):
+        os.makedirs(Path('output'))
+    if not os.path.exists(Path('./output/structures')):
+        os.makedirs(Path('./output/structures'))
+    if not os.path.exists(Path('./PDB_files')):
+        os.makedirs(Path('PDB_files'))
 
     # Run main application
     if config.mode.upper() == 'MULTIPLE_CUSTOM':

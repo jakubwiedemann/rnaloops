@@ -3,15 +3,17 @@ import vg
 import numpy as np
 from Bio.PDB import *
 from Bio.PDB import PDBList
+from pathlib import Path
 
-from Commons.TetriaryStructuresTools import StructureSelection, points_to_vector_converter
+from Commons.TetriaryStructuresTools import StructureSelection, points_to_vector_converter, generate_fragments
 from Commons.Utilities import is_non_zero_file, pairs_generator
 
 
 def centroid_calculator(lis):
     length = len(lis)
     sum1 = map(sum, zip(*lis))
-    return sum1[0]/length, sum1[1]/length, sum1[2]/length
+#    return sum1[0]/length, sum1[1]/length, sum1[2]/length
+    return [val/length for val in sum1]
 
 
 def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structure_chains, method_used):
@@ -21,21 +23,23 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     list_of_euler_angles = []
     list_of_planar_angles = []
     list_of_residues = []
-
+    pdb_data_folder = Path("PDB_files/")
+    structure_name = structure_name.lower()
     # Download file if does not exist
-    if (not is_non_zero_file("./PDB_files/" + structure_name + ".pdb")) and (not is_non_zero_file("./PDB_files/" + structure_name + ".cif")):
-        PDBList().retrieve_pdb_file(structure_name,pdir='./PDB_files/')
+    if (not is_non_zero_file(pdb_data_folder / (structure_name + ".pdb"))) and (not is_non_zero_file(pdb_data_folder / (structure_name + ".cif"))):
+        PDBList().retrieve_pdb_file(structure_name,pdir=pdb_data_folder)
 
-    if is_non_zero_file("./PDB_files/" + structure_name + ".pdb"):
+    if is_non_zero_file(pdb_data_folder / (structure_name + ".pdb")):
         parser_pdb = PDBParser()
-        structure = parser_pdb.get_structure(structure_name, "./PDB_files/" + structure_name + ".pdb")
-    if is_non_zero_file("./PDB_files/" + structure_name + ".cif"):
+        structure = parser_pdb.get_structure(structure_name, pdb_data_folder / (structure_name + ".pdb"))
+    if is_non_zero_file(pdb_data_folder / (structure_name + ".cif")):
         parser_cif = MMCIFParser()
-        structure = parser_cif.get_structure(structure_name, "./PDB_files/" + structure_name + ".cif")
+        structure = parser_cif.get_structure(structure_name, pdb_data_folder / (structure_name + ".cif"))
 
     model = structure[0]
     chain_test = []
     chain = None
+    print(structure_chains)
     for chain_to_include in structure_chains:
         if not chain:
             chain = model[chain_to_include]
@@ -68,8 +72,8 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     center_of_junction = centroid_calculator(list_of_points)
 
     io.set_structure(structure)
-
-    stems_location = '_'.join(str(item) for sublist in list_of_residues for item in sublist)
+    list_of_fragments = generate_fragments(list_of_stem_pairs)
+    stems_location = '_'.join(str(item) for sublist in list_of_fragments for item in sublist)
 
     name_of_file = structure_name + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.pdb'
     io.save('./output/structures/' + name_of_file, StructureSelection(list_of_residues))

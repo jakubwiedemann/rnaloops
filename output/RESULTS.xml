@@ -1,0 +1,294 @@
+<File>
+  <PDB_Structure>
+    <field1 name="PDB_ID">1B23</field1>
+    <Junction>
+      <field1 name="Type_of_junction">4-way junction</field1>
+      <field2 name="Junction_PDB_File">1b23_4-way_junction_7_10_24_26_42_47_63_64.pdb</field2>
+      <Connectors>
+        <Connector>
+          <field1 name="ID">0</field1>
+          <field2 name="Range">[7, 10]</field2>
+          <field3 name="Lenght">2</field3>
+          <field4 name="Sequence">UuAA</field4>
+          <field5 name="DB_Notation">(..(</field5>
+          <field6 name="Planar_angle">156.4728220179626</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">168.76346367903653</field1>
+            <field2 name="Angle_Y">154.95465900623543</field2>
+            <field3 name="Angle_Z">147.55895454582856</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">1</field1>
+          <field2 name="Range">[24, 26]</field2>
+          <field3 name="Lenght">1</field3>
+          <field4 name="Sequence">UAG</field4>
+          <field5 name="DB_Notation">).(</field5>
+          <field6 name="Planar_angle">27.19084937771678</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">19.830967625382193</field1>
+            <field2 name="Angle_Y">23.374574255577755</field2>
+            <field3 name="Angle_Z">25.288146043342312</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">2</field1>
+          <field2 name="Range">[42, 47]</field2>
+          <field3 name="Lenght">4</field3>
+          <field4 name="Sequence">UCUAGU</field4>
+          <field5 name="DB_Notation">)....(</field5>
+          <field6 name="Planar_angle">161.9182427422165</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">172.8539822216024</field1>
+            <field2 name="Angle_Y">161.94480908787452</field2>
+            <field3 name="Angle_Z">147.13728864865644</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">3</field1>
+          <field2 name="Range">[63, 64]</field2>
+          <field3 name="Lenght">0</field3>
+          <field4 name="Sequence">AA</field4>
+          <field5 name="DB_Notation">))</field5>
+          <field6 name="Planar_angle">18.38522279388394</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">1.4484135260212092</field1>
+            <field2 name="Angle_Y">19.725957650312314</field2>
+            <field3 name="Angle_Z">40.01561076217268</field3>
+          </Euler_Angles>
+        </Connector>
+      </Connectors>
+    </Junction>
+  </PDB_Structure>
+  <PDB_Structure>
+    <field1 name="PDB_ID">1E8O</field1>
+    <Junction>
+      <field1 name="Type_of_junction">3-way junction</field1>
+      <field2 name="Junction_PDB_File">1e8o_3-way_junction_5_6_25_30_45_46.pdb</field2>
+      <Connectors>
+        <Connector>
+          <field1 name="ID">0</field1>
+          <field2 name="Range">[5, 6]</field2>
+          <field3 name="Lenght">0</field3>
+          <field4 name="Sequence">CG</field4>
+          <field5 name="DB_Notation">((</field5>
+          <field6 name="Planar_angle">159.7609652479115</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">164.44662901694144</field1>
+            <field2 name="Angle_Y">128.2477989343948</field2>
+            <field3 name="Angle_Z">166.52659181414688</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">1</field1>
+          <field2 name="Range">[25, 30]</field2>
+          <field3 name="Lenght">4</field3>
+          <field4 name="Sequence">UGUAGU</field4>
+          <field5 name="DB_Notation">)....(</field5>
+          <field6 name="Planar_angle">162.8894706743797</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">163.9767614528157</field1>
+            <field2 name="Angle_Y">158.67388536440058</field2>
+            <field3 name="Angle_Z">168.742060087295</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">2</field1>
+          <field2 name="Range">[45, 46]</field2>
+          <field3 name="Lenght">0</field3>
+          <field4 name="Sequence">AG</field4>
+          <field5 name="DB_Notation">))</field5>
+          <field6 name="Planar_angle">37.34956407770871</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">31.576609530242784</field1>
+            <field2 name="Angle_Y">73.07831570120463</field2>
+            <field3 name="Angle_Z">24.731348098558176</field3>
+          </Euler_Angles>
+        </Connector>
+      </Connectors>
+    </Junction>
+  </PDB_Structure>
+  <PDB_Structure>
+    <field1 name="PDB_ID">1GRZ</field1>
+    <Junction>
+      <field1 name="Type_of_junction">3-way junction</field1>
+      <field2 name="Junction_PDB_File">1grz_3-way_junction_8_12_119_121_161_175.pdb</field2>
+      <Connectors>
+        <Connector>
+          <field1 name="ID">0</field1>
+          <field2 name="Range">[8, 12]</field2>
+          <field3 name="Lenght">3</field3>
+          <field4 name="Sequence">AAAUU</field4>
+          <field5 name="DB_Notation">(...(</field5>
+          <field6 name="Planar_angle">168.4077024381815</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">176.48082434235326</field1>
+            <field2 name="Angle_Y">168.22613791667703</field2>
+            <field3 name="Angle_Z">177.72722173142046</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">1</field1>
+          <field2 name="Range">[119, 121]</field2>
+          <field3 name="Lenght">1</field3>
+          <field4 name="Sequence">AGC</field4>
+          <field5 name="DB_Notation">).(</field5>
+          <field6 name="Planar_angle">66.54348398204392</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">151.66353101747845</field1>
+            <field2 name="Angle_Y">67.04793674984337</field2>
+            <field3 name="Angle_Z">9.107574098688174</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">2</field1>
+          <field2 name="Range">[161, 175]</field2>
+          <field3 name="Lenght">13</field3>
+          <field4 name="Sequence">GUUCACAGACUAAAU</field4>
+          <field5 name="DB_Notation">)....[.[.[[[..)</field5>
+          <field6 name="Planar_angle">125.0488135797746</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">31.85564464016814</field1>
+            <field2 name="Angle_Y">124.72592533347955</field2>
+            <field3 name="Angle_Z">173.16520416989147</field3>
+          </Euler_Angles>
+        </Connector>
+      </Connectors>
+    </Junction>
+    <Junction>
+      <field1 name="Type_of_junction">3-way junction</field1>
+      <field2 name="Junction_PDB_File">1grz_3-way_junction_43_47_66_70_80_85.pdb</field2>
+      <Connectors>
+        <Connector>
+          <field1 name="ID">0</field1>
+          <field2 name="Range">[43, 47]</field2>
+          <field3 name="Lenght">3</field3>
+          <field4 name="Sequence">CAAGU</field4>
+          <field5 name="DB_Notation">(...(</field5>
+          <field6 name="Planar_angle">120.74262111335591</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">117.77068951596976</field1>
+            <field2 name="Angle_Y">163.20548418463844</field2>
+            <field3 name="Angle_Z">89.372244931301</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">1</field1>
+          <field2 name="Range">[66, 70]</field2>
+          <field3 name="Lenght">3</field3>
+          <field4 name="Sequence">AUGGC</field4>
+          <field5 name="DB_Notation">)...(</field5>
+          <field6 name="Planar_angle">131.49755133817672</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">131.21268544660882</field1>
+            <field2 name="Angle_Y">62.889215483493196</field2>
+            <field3 name="Angle_Z">165.15055444087585</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">2</field1>
+          <field2 name="Range">[80, 85]</field2>
+          <field3 name="Lenght">4</field3>
+          <field4 name="Sequence">GGUAUG</field4>
+          <field5 name="DB_Notation">)....)</field5>
+          <field6 name="Planar_angle">107.75982754846737</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">111.01662503742145</field1>
+            <field2 name="Angle_Y">133.90530033186835</field2>
+            <field3 name="Angle_Z">105.47720062782311</field3>
+          </Euler_Angles>
+        </Connector>
+      </Connectors>
+    </Junction>
+    <Junction>
+      <field1 name="Type_of_junction">3-way junction</field1>
+      <field2 name="Junction_PDB_File">1grz_3-way_junction_256_264_362_368_410_423.pdb</field2>
+      <Connectors>
+        <Connector>
+          <field1 name="ID">0</field1>
+          <field2 name="Range">[256, 264]</field2>
+          <field3 name="Lenght">7</field3>
+          <field4 name="Sequence">AAAUUGCGG</field4>
+          <field5 name="DB_Notation">(.......(</field5>
+          <field6 name="Planar_angle">151.9203196430698</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">152.652340034503</field1>
+            <field2 name="Angle_Y">170.51860993526137</field2>
+            <field3 name="Angle_Z">169.6106637151984</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">1</field1>
+          <field2 name="Range">[362, 368]</field2>
+          <field3 name="Lenght">5</field3>
+          <field4 name="Sequence">CACGCAG</field4>
+          <field5 name="DB_Notation">).....(</field5>
+          <field6 name="Planar_angle">116.14625002325124</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">115.88399303269766</field1>
+            <field2 name="Angle_Y">34.4522621885612</field2>
+            <field3 name="Angle_Z">170.3866495157439</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">2</field1>
+          <field2 name="Range">[410, 423]</field2>
+          <field3 name="Lenght">12</field3>
+          <field4 name="Sequence">UUCACAGACUAAAU</field4>
+          <field5 name="DB_Notation">)...[..[[[...)</field5>
+          <field6 name="Planar_angle">91.93343033367894</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">91.46366693279938</field1>
+            <field2 name="Angle_Y">155.0291278761775</field2>
+            <field3 name="Angle_Z">20.002686769057764</field3>
+          </Euler_Angles>
+        </Connector>
+      </Connectors>
+    </Junction>
+    <Junction>
+      <field1 name="Type_of_junction">3-way junction</field1>
+      <field2 name="Junction_PDB_File">1grz_3-way_junction_291_295_314_318_328_333.pdb</field2>
+      <Connectors>
+        <Connector>
+          <field1 name="ID">0</field1>
+          <field2 name="Range">[291, 295]</field2>
+          <field3 name="Lenght">3</field3>
+          <field4 name="Sequence">CAAGU</field4>
+          <field5 name="DB_Notation">(...(</field5>
+          <field6 name="Planar_angle">116.91104864638346</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">97.24227469949112</field1>
+            <field2 name="Angle_Y">158.32861257747203</field2>
+            <field3 name="Angle_Z">109.56093910622282</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">1</field1>
+          <field2 name="Range">[314, 318]</field2>
+          <field3 name="Lenght">3</field3>
+          <field4 name="Sequence">AUGGC</field4>
+          <field5 name="DB_Notation">)...(</field5>
+          <field6 name="Planar_angle">140.14317313525444</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">161.96004371278622</field1>
+            <field2 name="Angle_Y">97.91598090635948</field2>
+            <field3 name="Angle_Z">140.46782343594154</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">2</field1>
+          <field2 name="Range">[328, 333]</field2>
+          <field3 name="Lenght">4</field3>
+          <field4 name="Sequence">GGUAUG</field4>
+          <field5 name="DB_Notation">)....)</field5>
+          <field6 name="Planar_angle">102.9457782183621</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">100.7976815877227</field1>
+            <field2 name="Angle_Y">103.75540651616853</field2>
+            <field3 name="Angle_Z">109.97123745783566</field3>
+          </Euler_Angles>
+        </Connector>
+      </Connectors>
+    </Junction>
+  </PDB_Structure>
+</File>

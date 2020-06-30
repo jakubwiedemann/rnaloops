@@ -20,14 +20,14 @@ def find_junction(text, junction_start):
     list_of_pairs = []
     if text[junction_start] == "(":
         last = find_matching_parenthesis(text, junction_start)
-        list_of_pairs.append([junction_start, last])
+        list_of_pairs.append([junction_start+1, last+1])
         junction_start += 1
         stems_identified += 1
 
         while junction_start < last:
             if text[junction_start] == "(":
                 end = find_matching_parenthesis(text, junction_start)
-                list_of_pairs.append([junction_start, end])
+                list_of_pairs.append([junction_start+1, end+1])
 
                 junction_start = end + 1
                 stems_identified += 1

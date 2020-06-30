@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import xml.etree.cElementTree as ET
+from lxml import etree as ET
 
 
 def xml_generate(list_of_records):
@@ -13,10 +13,10 @@ def xml_generate(list_of_records):
             junction = ET.SubElement(pdb_structure, "Junction")
             ET.SubElement(junction, "field1", name="Type_of_junction").text = junction_record.type
             ET.SubElement(junction, "field2", name="Junction_PDB_File").text = junction_record.name_of_file
+            connectors = ET.SubElement(junction, "Connectors")
 
             for connector_id, (list_of_segments_ranges, lenghts_of_segments, list_of_segment_seq,  list_of_segment_db, list_of_angles, planar_angle) \
                     in enumerate(zip(junction_record.list_of_segments_ranges, junction_record.lengths_of_segments, junction_record.list_of_segment_seq,  junction_record.list_of_segment_db, junction_record.list_of_angles, junction_record.planar_angle)):
-                connectors = ET.SubElement(junction, "Connectors")
 
                 connector = ET.SubElement(connectors, "Connector")
                 ET.SubElement(connector, "field1", name="ID").text = str(connector_id)
@@ -33,4 +33,4 @@ def xml_generate(list_of_records):
 
     tree = ET.ElementTree(root)
 
-    tree.write("./output/RESULTS.xml")
+    tree.write("./output/RESULTS.xml", pretty_print=True)

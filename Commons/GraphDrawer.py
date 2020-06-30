@@ -3,6 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import pandas as pd
 import random
+from pathlib import Path
 
 
 def draw_graph(list_of_records):
@@ -59,6 +60,6 @@ def draw_graph_2(list_of_records):
 
     nx.draw_networkx_edge_labels(G,pos,edge_labels=labels_egde,font_color='black', font_size= 20 )
     plt.axis('off')
-    plt.savefig('C:\Users\Desktop\Desktop\\demo.png', transparent=True)
-    #plt.show()
+    plt.savefig(Path('.\output\demo.png'), transparent=True)
+    plt.show()
 

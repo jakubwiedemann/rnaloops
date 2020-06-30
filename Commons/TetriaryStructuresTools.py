@@ -51,7 +51,7 @@ class StructureSelection(Select):
         resudue_number_to_include = []
         list_res = ['A', 'U', 'C', 'G']
         for pair in fragment_list:
-            for numbers in range(pair[0], pair[1]):
+            for numbers in range(pair[0], pair[1]+1):
                 resudue_number_to_include.append(numbers)
         if (residue.id[1] in resudue_number_to_include) and (re.sub(r'\W+', '',residue.get_resname()) in list_res):
             return 1

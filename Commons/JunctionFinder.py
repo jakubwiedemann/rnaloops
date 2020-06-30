@@ -21,6 +21,7 @@ class JunctionFinder:
 
         for start in range(len(text)):
             current_junction = Junction()
+
             bool_found, number_of_stems, position_of_connectors = find_junction(text, start)
 
             if bool_found:
@@ -36,9 +37,9 @@ class JunctionFinder:
                 current_junction.name_of_file = junction_substructure_file
 
                 for i,pair in enumerate(current_junction.list_of_segments_ranges):
-                    current_junction.lengths_of_segments.append(pair[1] - pair[0] - 1)
-                    current_junction.list_of_segment_db.append(text[pair[0]:pair[1] + 1])
-                    current_junction.list_of_segment_seq.append(sequence[pair[0]:pair[1] + 1])
+                    current_junction.lengths_of_segments.append(pair[1] -1 - pair[0])
+                    current_junction.list_of_segment_db.append(text[pair[0] - 1:pair[1]])
+                    current_junction.list_of_segment_seq.append(sequence[pair[0] - 1:pair[1]])
                     current_junction.list_of_angles.append(list_of_euler_angles[i])
                     current_junction.planar_angle.append(planar_angle[i])
 
