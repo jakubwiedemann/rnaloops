@@ -15,6 +15,15 @@ def centroid_calculator(lis):
 #    return sum1[0]/length, sum1[1]/length, sum1[2]/length
     return [val/length for val in sum1]
 
+def planar_angle_calculator(first_stem,second_stem):
+    return vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]))
+
+def euler_angle_calculator(first_stem,second_stem):
+    angle_x = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.x)
+    angle_y = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.y)
+    angle_z = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.z)
+    return [angle_x, angle_y, angle_z]
+
 
 def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structure_chains, method_used):
 
@@ -71,23 +80,25 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
 
     center_of_junction = centroid_calculator(list_of_points)
 
+    name_of_file = save_structure(structure, list_of_stem_pairs, structure_name, list_of_residues)
+
+    for pair in pairs_generator(range(len(list_of_points))):
+        first_stem = points_to_vector_converter(center_of_junction, list_of_points[pair[0]])
+        second_stem = points_to_vector_converter(center_of_junction, list_of_points[pair[1]])
+
+        planar_angle = planar_angle_calculator(first_stem,second_stem)
+        list_of_planar_angles.append(planar_angle)
+
+        list_of_euler_angles.append(euler_angle_calculator(first_stem,second_stem))
+
+    return list_of_euler_angles, list_of_planar_angles, name_of_file
+
+def save_structure(structure, list_of_stem_pairs, structure_name, list_of_residues):
+    io = PDBIO()
     io.set_structure(structure)
     list_of_fragments = generate_fragments(list_of_stem_pairs)
     stems_location = '_'.join(str(item) for sublist in list_of_fragments for item in sublist)
 
     name_of_file = structure_name + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.pdb'
     io.save('./output/structures/' + name_of_file, StructureSelection(list_of_residues))
-
-    for pair in pairs_generator(range(len(list_of_points))):
-            first_stem = points_to_vector_converter(center_of_junction, list_of_points[pair[0]])
-            second_stem = points_to_vector_converter(center_of_junction, list_of_points[pair[1]])
-
-            planar_angle = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]))
-            list_of_planar_angles.append(planar_angle)
-
-            angle_x = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.x)
-            angle_y = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.y)
-            angle_z = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.z)
-            list_of_euler_angles.append([angle_x, angle_y, angle_z])
-
-    return list_of_euler_angles, list_of_planar_angles, name_of_file
+    return name_of_file

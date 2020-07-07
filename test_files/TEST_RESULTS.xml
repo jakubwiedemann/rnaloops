@@ -1,0 +1,50 @@
+<File>
+  <PDB_Structure>
+    <field1 name="PDB_ID">TST</field1>
+    <Junction>
+      <field1 name="Type_of_junction">4-way junction</field1>
+      <field2 name="Junction_PDB_File">TST_3-way_junction_7_10_24_26_42_47_63_64.pdb</field2>
+      <Connectors>
+        <Connector>
+          <field1 name="ID">0</field1>
+          <field2 name="Range">[7, 10]</field2>
+          <field3 name="Lenght">2</field3>
+          <field4 name="Sequence">UuAA</field4>
+          <field5 name="DB_Notation">(..(</field5>
+          <field6 name="Planar_angle">156.4728220179626</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">168.76346367903653</field1>
+            <field2 name="Angle_Y">154.95465900623543</field2>
+            <field3 name="Angle_Z">147.55895454582856</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">1</field1>
+          <field2 name="Range">[24, 26]</field2>
+          <field3 name="Lenght">1</field3>
+          <field4 name="Sequence">UAG</field4>
+          <field5 name="DB_Notation">).(</field5>
+          <field6 name="Planar_angle">27.19084937771678</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">19.830967625382193</field1>
+            <field2 name="Angle_Y">23.374574255577755</field2>
+            <field3 name="Angle_Z">25.288146043342312</field3>
+          </Euler_Angles>
+        </Connector>
+        <Connector>
+          <field1 name="ID">2</field1>
+          <field2 name="Range">[42, 47]</field2>
+          <field3 name="Lenght">4</field3>
+          <field4 name="Sequence">UCUAGU</field4>
+          <field5 name="DB_Notation">)....(</field5>
+          <field6 name="Planar_angle">161.9182427422165</field6>
+          <Euler_Angles>
+            <field1 name="Angle_X">172.8539822216024</field1>
+            <field2 name="Angle_Y">161.94480908787452</field2>
+            <field3 name="Angle_Z">147.13728864865644</field3>
+          </Euler_Angles>
+        </Connector>
+      </Connectors>
+    </Junction>
+  </PDB_Structure>
+</File>
