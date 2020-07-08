@@ -48,10 +48,8 @@ Based on the dot-bracket notation algorithm finds an n-way junction. In the next
 
 ##Running tests 
 
-To run all implemented tests use:
+To run all implemented tests while being in project directory use:
 
-python -m unittest discover <test_directory>
+python -m unittest discover ./tests/
 
-or
 
-python -m unittest discover -s <directory> -p 'test_*.py'
