@@ -84,7 +84,7 @@ class TestAngularCalculator(TestCase):
         list_of_stem_pairs= [[7, 64], [10, 24], [26, 42], [47, 63]]
         save_structure(structure, list_of_stem_pairs, structure_name, list_of_residues)
         tst_path = Path('./output/structures/1b23_4-way_junction_7_10_24_26_42_47_63_64.pdb')
-        ref_path = Path('./test_files/1b23_4-way_junction_7_10_24_26_42_47_63_64.pdb')
+        ref_path = Path('./tests/test_files/1b23_4-way_junction_7_10_24_26_42_47_63_64.pdb')
         self.assertListEqual(
             list(io.open(tst_path)),
             list(io.open(ref_path)))

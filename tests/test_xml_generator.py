@@ -4,9 +4,8 @@ from unittest import TestCase
 from pathlib import Path
 from shutil import rmtree
 
-import Commons
+from Commons.XML_Generator import xml_generate
 from Commons.DataStructures import Junction, Record
-
 
 
 class TestXml_generator(TestCase):
@@ -43,9 +42,9 @@ class TestXml_generator(TestCase):
         list_of_junctions.append(current_junction)
         current_record.list_of_junctions = list_of_junctions
         list_of_records.append(current_record)
-        Commons.XML_Generator.xml_generate(list_of_records)
+        xml_generate(list_of_records)
         tst_path = Path('./output/RESULTS.xml')
-        ref_path = Path('./test_files/TEST_RESULTS.xml')
+        ref_path = Path('./tests/test_files/TEST_RESULTS.xml')
         self.assertListEqual(
             list(io.open(tst_path)),
             list(io.open(ref_path)))
