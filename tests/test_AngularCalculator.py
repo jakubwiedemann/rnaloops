@@ -77,7 +77,7 @@ class TestAngularCalculator(TestCase):
         if not os.path.exists(Path('./output/structures')):
             os.makedirs(Path('./output/structures'))
         parser_cif = MMCIFParser()
-        pdb_data_folder = Path('./test_files/')
+        pdb_data_folder = Path('./tests/test_files/')
         structure = parser_cif.get_structure('1b23', pdb_data_folder / '1b23.cif')
         list_of_residues = [[7, 66], [10, 25], [27, 43], [49, 65]]
         structure_name = '1b23'
