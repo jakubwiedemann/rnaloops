@@ -45,3 +45,13 @@ After running, in ./output folder program generates RESULT.xml file and folder /
 As an input tool uses a file with the dot-bracket representation of the structure (to get this file from the 3D structure you can use RNApdbee).
 
 Based on the dot-bracket notation algorithm finds an n-way junction. In the next step, the algorithm looks for PDB file in folder, if the file does not exist the structure is retrieved automatically and saved in the mentioned folder. For identified junctions based on 3D structure algorithm represents outgoing stems as a vector in 3D space and for pairs of stems calculates the value of planar angle and Euler angles. The final step is the generation of RESULT.xml file that contains all results.
+
+##Running tests 
+
+To run all implemented tests use:
+
+python -m unittest discover <test_directory>
+
+or
+
+python -m unittest discover -s <directory> -p 'test_*.py'

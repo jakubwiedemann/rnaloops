@@ -1,19 +1,27 @@
-from unittest import TestCase
 import numpy as np
+import io
+import os
+from unittest import TestCase
 from pathlib import Path
 from Bio.PDB import *
 from shutil import rmtree
-import io
-import os
 
-from Commons.AngularCalculator import planar_angle_calculator
-from Commons.AngularCalculator import centroid_calculator, save_structure
+from Commons.AngularCalculator import planar_angle_calculator, euler_angle_calculator, centroid_calculator, save_structure
 
 
 class TestAngularCalculator(TestCase):
-    def test_euler_angle_calculator(self):
 
-        from Commons.AngularCalculator import euler_angle_calculator
+    def test_euler_angle_calculator_no_change(self):
+
+        first_stem = [0,0,0]
+        second_stem = [0,0,0]
+
+        self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[0]))
+        self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[1]))
+        self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[2]))
+
+    def test_euler_angle_calculator_first_angle(self):
+
         first_stem = [0,0,1]
         second_stem =[0,1,0]
 
@@ -21,15 +29,27 @@ class TestAngularCalculator(TestCase):
         self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[1]))
         self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[2]))
 
-    def test_euler_angle_calculator_no_change(self):
 
-        from Commons.AngularCalculator import euler_angle_calculator
-        first_stem = [0,0,0]
-        second_stem = [0,0,0]
+
+    def test_euler_angle_calculator_second_angle(self):
+
+        first_stem = [1,0,0]
+        second_stem = [0,0,1]
+
+        self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[0]))
+        self.assertEqual(euler_angle_calculator(first_stem,second_stem)[1], 90)
+        self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[2]))
+
+    def test_euler_angle_calculator_second_angle(self):
+
+        first_stem = [1,0,0]
+        second_stem = [0,1,0]
 
         self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[0]))
         self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[1]))
-        self.assertTrue(np.math.isnan(euler_angle_calculator(first_stem, second_stem)[2]))
+        self.assertEqual(euler_angle_calculator(first_stem,second_stem)[2], 90)
+
+
 
     def test_planar_angle_calculator(self):
 
