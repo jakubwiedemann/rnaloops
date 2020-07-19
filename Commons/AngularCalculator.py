@@ -4,6 +4,7 @@ import numpy as np
 from Bio.PDB import *
 from Bio.PDB import PDBList
 from pathlib import Path
+from Bio.PDB.mmcifio import MMCIFIO
 
 from Commons.TetriaryStructuresTools import StructureSelection, points_to_vector_converter, generate_fragments
 from Commons.Utilities import is_non_zero_file, pairs_generator
@@ -94,7 +95,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     return list_of_euler_angles, list_of_planar_angles, name_of_file
 
 def save_structure(structure, list_of_stem_pairs, structure_name, list_of_residues):
-    io = PDBIO()
+    io=MMCIFIO()
     io.set_structure(structure)
     list_of_fragments = generate_fragments(list_of_stem_pairs)
     stems_location = '_'.join(str(item) for sublist in list_of_fragments for item in sublist)

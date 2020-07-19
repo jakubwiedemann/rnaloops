@@ -45,7 +45,7 @@ def multiple_file_custom_mode(path):
 def multiple_files_from_pdbee(path):
     list_of_junction_types = []
     list_of_records = []
-    for filename in glob.glob(os.path.join(path, '*.txt')):
+    for filename in glob.glob(os.path.join(path, '*.dbn')):
         sequence = ''
         dot_bracket_representation = ''
         name_of_the_file = Path(filename)
