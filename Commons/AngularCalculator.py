@@ -58,15 +58,20 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
             chain_test.append(model[chain_to_include])
 
     for pair in list_of_stem_pairs:
-        try:
-            residue_1 = chain.child_list[pair[0]-1]
-        except:
-            residue_1 = chain_test[1].child_list[pair[0]-1-len(chain.child_list)]
+        sum_of_chain_lenght = len(chain.child_list)
+        chain_id = 0
+        while pair[0]>sum_of_chain_lenght:
+            chain_id += 1
+            sum_of_chain_lenght += len(chain_test[chain_id].child_list)
 
-        try:
-            residue_2 = chain.child_list[pair[1]-1]
-        except:
-             residue_2 = chain_test[1].child_list[pair[1]-1-len(chain.child_list)]
+        residue_1 = chain_test[chain_id].child_list[pair[0]-1-(sum_of_chain_lenght - len(chain_test[chain_id].child_list))]
+        chain_id = 0
+        while pair[1]>sum_of_chain_lenght:
+            chain_id += 1
+            sum_of_chain_lenght += len(chain_test[chain_id].child_list)
+
+        residue_2 = chain_test[chain_id].child_list[pair[1]-1-(sum_of_chain_lenght - len(chain_test[chain_id].child_list))]
+
 
         list_of_residues.append([residue_1.id[1], residue_2.id[1]])
 
