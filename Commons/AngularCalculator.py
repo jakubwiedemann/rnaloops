@@ -27,7 +27,7 @@ def euler_angle_calculator(first_stem,second_stem):
 
 
 def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structure_chains, method_used):
-
+    print(structure_name)
     io = PDBIO()
     list_of_points = []
     list_of_euler_angles = []
@@ -43,13 +43,13 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         parser_pdb = PDBParser()
         structure = parser_pdb.get_structure(structure_name, pdb_data_folder / (structure_name + ".pdb"))
     if is_non_zero_file(pdb_data_folder / (structure_name + ".cif")):
-        parser_cif = MMCIFParser()
+        parser_cif = MMCIFParser(QUIET=True)
         structure = parser_cif.get_structure(structure_name, pdb_data_folder / (structure_name + ".cif"))
 
     model = structure[0]
     chain_test = []
     chain = None
-    print(structure_chains)
+
     for chain_to_include in structure_chains:
         if not chain:
             chain = model[chain_to_include]
