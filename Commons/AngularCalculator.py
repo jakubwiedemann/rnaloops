@@ -65,7 +65,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
             sum_of_chain_lenght += len(chain_test[chain_id].child_list)
 
         residue_1 = chain_test[chain_id].child_list[pair[0]-1-(sum_of_chain_lenght - len(chain_test[chain_id].child_list))]
-        chain_id = 0
+
         while pair[1]>sum_of_chain_lenght:
             chain_id += 1
             sum_of_chain_lenght += len(chain_test[chain_id].child_list)
