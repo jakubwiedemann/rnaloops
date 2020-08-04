@@ -2,11 +2,16 @@
 
 
 class Record:
-    def __init__(self, name, method='', chains=[], segment_length=0, list_of_junctions=[]):
+    def __init__(self, name, method='', chains=[], segment_length=[]):
         self.name = name
         self.method = method
         self.chains = chains
         self.segment_length = segment_length
+
+
+class Stem:
+    def __init__(self, segment_length=1, list_of_junctions=[]):
+        self.segment_length = 1
         self.list_of_junctions = list_of_junctions
 
 
