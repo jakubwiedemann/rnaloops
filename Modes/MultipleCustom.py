@@ -58,9 +58,7 @@ def multiple_files_from_pdbee(path):
                     current_record.chains.append(lines[line_number].split(">strand_")[-1].replace('\n',''))
                     sequence += lines[line_number + 1]
                     dot_bracket_representation += lines[line_number + 2]
-            current_stem = Stem(1, [])
-            types_of_junction, current_stem.list_of_junctions = JunctionFinder.find_junctions(dot_bracket_representation, sequence, file_info[0], current_record.chains, current_record.method)
-            current_record.segment_length.append(current_stem)
+            types_of_junction, current_record.list_of_junctions = JunctionFinder.find_junctions(dot_bracket_representation, sequence, file_info[0], current_record.chains, current_record.method)
             list_of_records.append(current_record)
 
             list_of_junction_types += types_of_junction
