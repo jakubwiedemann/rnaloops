@@ -10,3 +10,6 @@ def pairs_generator(lst):
 
 def is_non_zero_file(file_path):
     return os.path.isfile(file_path) and os.path.getsize(file_path) > 0
+
+def extract(i, lst):
+    return [item[i] for item in lst]

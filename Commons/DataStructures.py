@@ -11,7 +11,7 @@ class Record:
 
 class Stem:
     def __init__(self, segment_length=1, list_of_connectors=[]):
-        self.segment_length = 1
+        self.segment_length = None
         self.list_of_connectors = list_of_connectors
 
 class Junction:
@@ -22,6 +22,7 @@ class Junction:
 
 class Connector:
      def __init__(self):
+        self.connector_id = None
         self.list_of_segments_ranges = None
         self.lengths_of_segments = None
         self.list_of_segment_seq = None
