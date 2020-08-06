@@ -19,6 +19,10 @@ def xml_generate(list_of_records):
             for stem_record in junction_record.list_of_stems:
                 stem = ET.SubElement(stems, "Stem")
                 ET.SubElement(stem, "field1", name="Stem length").text = str(stem_record.segment_length)
+                ET.SubElement(stem, "field1", name="First strand sequence").text = str(stem_record.first_strand_sequence)
+                ET.SubElement(stem, "field1", name="Second strand squence").text = str(stem_record.second_strand_sequence)
+                ET.SubElement(stem, "field1", name="First strand DB_notation").text = str(stem_record.first_strand_db)
+                ET.SubElement(stem, "field1", name="Second strand DB_notation").text = str(stem_record.second_strand_db)
 
                 connectors = ET.SubElement(stem, "Connectors")
                 for connector_records in stem_record.list_of_connectors:

@@ -40,7 +40,10 @@ class JunctionFinder:
                     current_stem.segment_length = []
                     current_stem.segment_length.append(1)
                     current_stem.list_of_connectors = []
-
+                    current_stem.first_strand_sequence = []
+                    current_stem.second_strand_sequence = []
+                    current_stem.first_strand_db = []
+                    current_stem.second_strand_db = []
 
                     list_of_fragments = generate_fragments(position_of_connectors)
 
@@ -67,6 +70,10 @@ class JunctionFinder:
 
                     current_stem.list_of_connectors.append(list_of_connectors[connector_pairs[connector_id][0]])
                     current_stem.list_of_connectors.append(list_of_connectors[connector_pairs[connector_id][1]])
+                    current_stem.first_strand_sequence.append(list_of_connectors[connector_pairs[connector_id][0]].list_of_segment_seq[-1])
+                    current_stem.second_strand_sequence.append(list_of_connectors[connector_pairs[connector_id][1]].list_of_segment_seq[0])
+                    current_stem.first_strand_db.append(list_of_connectors[connector_pairs[connector_id][0]].list_of_segment_db[-1])
+                    current_stem.second_strand_db.append(list_of_connectors[connector_pairs[connector_id][1]].list_of_segment_db[0])
                     current_junction.list_of_stems.append(current_stem)
                 list_of_junctions.append(current_junction)
                 types_of_junction.append(number_of_stems)
