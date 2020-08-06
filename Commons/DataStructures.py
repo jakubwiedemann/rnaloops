@@ -13,16 +13,15 @@ class Stem:
     def __init__(self, segment_length=1, list_of_connectors=[]):
         self.segment_length = None
         self.list_of_connectors = list_of_connectors
-        self.first_strand_sequence = None
-        self.second_strand_sequence = None
-        self.first_strand_db = None
-        self.second_strand_db = None
+        self.sequence = None
+
 
 class Junction:
     def __init__(self):
         self.type = ''
         self.name_of_file = None
         self.list_of_stems = None
+        self.list_of_connectors = None
 
 class Connector:
      def __init__(self):
