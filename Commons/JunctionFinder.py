@@ -24,11 +24,13 @@ class JunctionFinder:
             current_junction = Junction()
             current_junction.list_of_stems = []
             current_junction.list_of_connectors = []
-
+            current_junction.segment_length =[]
+            current_junction.segment_length.append(1)
             bool_found, number_of_stems, position_of_connectors = find_junction(text, start)
-
             if bool_found:
-                list_of_euler_angles, planar_angle, junction_substructure_file= calculate_euler_angles_pairwise(position_of_connectors, name_of_structure, chains, method)
+                list_of_euler_angles, planar_angle, junction_substructure_file, valid= calculate_euler_angles_pairwise(position_of_connectors, name_of_structure, chains, method)
+                if not(valid):
+                    return [], [], False
                 current_junction.type = str(number_of_stems) + '-way junction'
                 current_junction.name_of_file = junction_substructure_file
                 segments_ranges = generate_fragments(position_of_connectors)
@@ -56,6 +58,7 @@ class JunctionFinder:
                 connector_pairs = []
                 for connector in pairs_generator(range(len(list_of_connectors))):
                     connector_pairs.append(connector)
+                connector_pairs.insert(0, connector_pairs.pop())
                 for connector_id in range(number_of_stems):
                     current_stem = Stem()
                     current_stem.segment_length = []
@@ -74,4 +77,4 @@ class JunctionFinder:
                 list_of_junctions.append(current_junction)
                 types_of_junction.append(number_of_stems)
 
-        return types_of_junction, list_of_junctions
+        return types_of_junction, list_of_junctions, True

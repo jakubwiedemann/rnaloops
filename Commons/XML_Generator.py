@@ -15,13 +15,14 @@ def xml_generate(list_of_records):
             junction = ET.SubElement(pdb_structure, "Junction")
             ET.SubElement(junction, "field1", name="Type_of_junction").text = junction_record.type
             ET.SubElement(junction, "field2", name="Junction_PDB_File").text = junction_record.name_of_file
+            ET.SubElement(junction, "field3", name="Stem lengths").text = str(separator.join(map(str,junction_record.segment_length)))
 
             stems = ET.SubElement(junction, "Stems")
             for stem_record in junction_record.list_of_stems:
                 stem = ET.SubElement(stems, "Stem")
-                ET.SubElement(stem, "field1", name="Stem length").text = str(separator.join(map(str,stem_record.segment_length)))
-                ET.SubElement(stem, "field2", name="Duplex sequence").text = str(separator.join(map(str,stem_record.sequence)))
-                ET.SubElement(stem, "field3", name="Connectors").text = str(separator.join(map(str,stem_record.list_of_connectors)))
+                #ET.SubElement(stem, "field1", name="Stem length").text = str(separator.join(map(str,stem_record.segment_length)))
+                ET.SubElement(stem, "field1", name="Stem sequence").text = str(separator.join(map(str,stem_record.sequence)))
+                ET.SubElement(stem, "field2", name="Connectors").text = str(separator.join(map(str,stem_record.list_of_connectors)))
 
 
             connectors = ET.SubElement(junction, "Connectors")

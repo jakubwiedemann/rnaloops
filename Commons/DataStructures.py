@@ -22,6 +22,7 @@ class Junction:
         self.name_of_file = None
         self.list_of_stems = None
         self.list_of_connectors = None
+        self.segment_length = None
 
 class Connector:
      def __init__(self):

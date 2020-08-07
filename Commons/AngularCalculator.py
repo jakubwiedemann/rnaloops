@@ -23,7 +23,7 @@ def euler_angle_calculator(first_stem,second_stem):
     angle_x = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.x)
     angle_y = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.y)
     angle_z = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.z)
-    return [angle_x, angle_y, angle_z]
+    return [format(angle_x, '.3f'), format(angle_y, '.3f'), format(angle_z, '.3f')]
 
 
 def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structure_chains, method_used):
@@ -43,8 +43,11 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         parser_pdb = PDBParser()
         structure = parser_pdb.get_structure(structure_name, pdb_data_folder / (structure_name + ".pdb"))
     if is_non_zero_file(pdb_data_folder / (structure_name + ".cif")):
-        parser_cif = MMCIFParser(QUIET=True)
-        structure = parser_cif.get_structure(structure_name, pdb_data_folder / (structure_name + ".cif"))
+        try:
+            parser_cif = MMCIFParser(QUIET=True)
+            structure = parser_cif.get_structure(structure_name, pdb_data_folder / (structure_name + ".cif"))
+        except:
+            return [], [], '', False
 
     model = structure[0]
     chain_test = []
@@ -98,11 +101,11 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         second_stem = points_to_vector_converter(center_of_junction, list_of_points[pair[1]])
 
         planar_angle = planar_angle_calculator(first_stem,second_stem)
-        list_of_planar_angles.append(planar_angle)
+        list_of_planar_angles.append(format(planar_angle, '.3f'))
 
         list_of_euler_angles.append(euler_angle_calculator(first_stem,second_stem))
 
-    return list_of_euler_angles, list_of_planar_angles, name_of_file
+    return list_of_euler_angles, list_of_planar_angles, name_of_file, True
 
 def save_structure(structure, list_of_stem_pairs, structure_name, list_of_residues):
     io=MMCIFIO()
