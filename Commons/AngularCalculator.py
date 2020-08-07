@@ -94,6 +94,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
 
     center_of_junction = centroid_calculator(list_of_points)
 
+
     name_of_file = save_structure(structure, list_of_stem_pairs, structure_name, list_of_residues)
 
     for pair in pairs_generator(range(len(list_of_points))):
@@ -108,11 +109,13 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     return list_of_euler_angles, list_of_planar_angles, name_of_file, True
 
 def save_structure(structure, list_of_stem_pairs, structure_name, list_of_residues):
-    io=MMCIFIO()
-    io.set_structure(structure)
     list_of_fragments = generate_fragments(list_of_stem_pairs)
     stems_location = '_'.join(str(item) for sublist in list_of_fragments for item in sublist)
+    name_of_file = structure_name + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.cif'
+    if not is_non_zero_file('./output/structures/' + (structure_name + ".cif")):
+        io=MMCIFIO()
+        io.set_structure(structure)
 
-    name_of_file = structure_name + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.pdb'
-    io.save('./output/structures/' + name_of_file, StructureSelection(list_of_residues))
+        name_of_file = structure_name + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.cif'
+        io.save('./output/structures/' + name_of_file, StructureSelection(list_of_residues))
     return name_of_file
