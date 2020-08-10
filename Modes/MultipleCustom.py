@@ -54,7 +54,7 @@ def multiple_files_from_pdbee(path):
         with open(filename,"r") as dot_bracket_file:
             lines = dot_bracket_file.readlines()
             for line_number in range(len(lines)):
-                if lines[line_number].startswith(">"):
+                if lines[line_number].startswith(">strand"):
                     current_record.chains.append(lines[line_number].split(">strand_")[-1].replace('\n',''))
                     sequence += lines[line_number + 1]
                     dot_bracket_representation += lines[line_number + 2]
