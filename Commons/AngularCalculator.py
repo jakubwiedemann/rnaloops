@@ -6,7 +6,7 @@ from Bio.PDB import PDBList
 from pathlib import Path
 from Bio.PDB.mmcifio import MMCIFIO
 
-from Commons.TetriaryStructuresTools import StructureSelection, points_to_vector_converter, generate_fragments
+from Commons.TetriaryStructuresTools import StructureSelection2, points_to_vector_converter, generate_fragments
 from Commons.Utilities import is_non_zero_file, pairs_generator
 
 
@@ -33,6 +33,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     list_of_euler_angles = []
     list_of_planar_angles = []
     list_of_residues = []
+    residues = []
     pdb_data_folder = Path("PDB_files/")
     structure_name = structure_name.lower()
     # Download file if does not exist
@@ -69,7 +70,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
 
 
         residue_1 = chain_test[chain_id].child_list[pair[0]-1-(sum_of_chain_lenght - len(chain_test[chain_id].child_list))]
-
+        residues.append(residue_1)
 
         sum_of_chain_lenght = len(chain.child_list)
         chain_id = 0
@@ -79,9 +80,9 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
 
 
         residue_2 = chain_test[chain_id].child_list[pair[1]-1-(sum_of_chain_lenght - len(chain_test[chain_id].child_list))]
+        residues.append(residue_2)
 
-
-        list_of_residues.append([residue_1.id[1], residue_2.id[1]])
+        list_of_residues = [*list_of_residues, [residue_1.full_id, residue_2.full_id]]
 
         atoms_to_include = []
         atoms_to_include += (Selection.unfold_entities(residue_1, 'A'))
@@ -95,7 +96,19 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     center_of_junction = centroid_calculator(list_of_points)
 
 
-    name_of_file = save_structure(structure, list_of_stem_pairs, structure_name, list_of_residues)
+    all_included_residues = []
+    pairs = generate_fragments(list_of_residues)
+    for pair in pairs:
+        if pair[0][2] == pair[1][2]:
+            for x in range(pair[0][3][1], pair[1][3][1]+1):
+                all_included_residues.append((pair[0][0],pair[0][1], pair[0][2], (' ', x, ' ')))
+        else:
+            for x in range(pair[0][3][1], len(model[pair[0][2]])):
+                all_included_residues.append((pair[0][0],pair[0][1], pair[0][2], (' ', x, ' ')))
+            for x in range(1, pair[1][3][1]):
+                all_included_residues.append((pair[1][0],pair[1][1], pair[1][2], (' ', x, ' ')))
+    print(all_included_residues)
+    name_of_file = save_structure(structure, list_of_stem_pairs, structure_name, all_included_residues)
 
     for pair in pairs_generator(range(len(list_of_points))):
         first_stem = points_to_vector_converter(center_of_junction, list_of_points[pair[0]])
@@ -117,5 +130,5 @@ def save_structure(structure, list_of_stem_pairs, structure_name, list_of_residu
         io.set_structure(structure)
 
         name_of_file = structure_name + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.cif'
-        io.save('./output/structures/' + name_of_file, StructureSelection(list_of_residues))
+        io.save('./output/structures/' + name_of_file, StructureSelection2(list_of_residues))
     return name_of_file

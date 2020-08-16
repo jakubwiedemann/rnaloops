@@ -57,3 +57,14 @@ class StructureSelection(Select):
             return 1
         else:
             return 0
+
+class StructureSelection2(Select):
+    def __init__(self, list_of_residues):
+        self.list_of_residues = list_of_residues
+
+    def accept_residue(self, residue):
+
+        if (residue.full_id in self.list_of_residues):
+            return 1
+        else:
+            return 0
