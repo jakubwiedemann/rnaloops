@@ -16,12 +16,13 @@ def centroid_calculator(lis):
     return [val/length for val in sum1]
 
 def planar_angle_calculator(first_stem,second_stem):
-    return vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]))
+    return np.nan_to_num(vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]])))
 
 def euler_angle_calculator(first_stem,second_stem):
-    angle_x = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.x)
-    angle_y = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.y)
-    angle_z = vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.z)
+    angle_x = np.nan_to_num(vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.x))
+    angle_y = np.nan_to_num(vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.y))
+    angle_z = np.nan_to_num(vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.z))
+    np.isnan(angle_x)
     return [format(angle_x, '.3f'), format(angle_y, '.3f'), format(angle_z, '.3f')]
 
 def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structure_chains, save_substructure = True):
