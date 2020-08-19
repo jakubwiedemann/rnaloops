@@ -13,3 +13,9 @@ def is_non_zero_file(file_path):
 
 def extract(i, lst):
     return [item[i] for item in lst]
+
+def extract_XML(i, lst):
+    return [item[i] for item in lst[0]]
+
+
+
