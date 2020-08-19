@@ -31,7 +31,7 @@ Before running, user have to set up config file. As a default we have 2 params:
     *mode (set to multiple),
     *path_to_dotbracket_files (by default set to ./dotbracket_files/test_multiple/).
 In ./dotbracket_files/test_multiple/ folder is placed a dot-bracket structure generated for 1b23, 1E8O, 1GRZ by RNApdbee (http://rnapdbee.cs.put.poznan.pl/) that can be use as an examples.
-1E80 contains a 3-way junction.
+1E8O contains a 3-way junction.
 1B23 contains a 4-way junction.
 1GRZ contains 4 different 3-way junctions.
 
