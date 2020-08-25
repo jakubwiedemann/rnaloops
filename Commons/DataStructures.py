@@ -23,6 +23,8 @@ class Junction:
         self.list_of_stems = None
         self.list_of_connectors = None
         self.segment_length = None
+        self.sequence = None
+        self.list_of_segment_db = None
 
 class Connector:
      def __init__(self):

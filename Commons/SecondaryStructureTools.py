@@ -47,6 +47,7 @@ def find_junction(db_sequence, junction_start, common_stem_length_calc = True):
 
 def common_stem_length(db_sequence, list_of_pairs):
     length_table = []
+    pair_length_table = []
     for pair in list_of_pairs:
         start = pair[0]-1
         open_count = 0
@@ -72,5 +73,7 @@ def common_stem_length(db_sequence, list_of_pairs):
                 end -=1
                 end_count += 1
         length_table.append(end_count)
-    return min(length_table)
+        pair_length_table.append([open_count, end_count])
+    pair_common_length_table = [min(pair) for pair in pair_length_table]
+    return pair_common_length_table
 
