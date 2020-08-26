@@ -30,6 +30,7 @@ class Connector:
      def __init__(self):
         self.connector_id = None
         self.list_of_segments_ranges = None
+        self.list_of_segments_ranges_id = None
         self.lengths_of_segments = None
         self.list_of_segment_seq = None
         self.list_of_segment_db = None

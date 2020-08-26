@@ -51,6 +51,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     list_of_residues = []
     base_list_of_residues=[]
     base_list_of_points = []
+    conn_list_of_residues=[]
 
     pdb_data_folder = Path("PDB_files/")
     structure_name = structure_name.lower()
@@ -58,7 +59,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     try:
         structure = get_structure(pdb_data_folder, structure_name)
     except:
-        return [], [], '', False
+        return [], [], '', base_list_of_points, False
 
     model = structure[0]
     chain_test = []
@@ -88,11 +89,21 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
 
         base_list_of_residues = [*base_list_of_residues, [base_residue_1.full_id, base_residue_2.full_id]]
 
+
         base_atoms_to_include = [*Selection.unfold_entities(base_residue_1, 'A'), *Selection.unfold_entities(base_residue_2, 'A')]
         base_list_of_atoms = [[atom.get_vector()[0],atom.get_vector()[1],atom.get_vector()[2]] for atom in base_atoms_to_include]
 
         base_list_of_points = [*base_list_of_points, centroid_calculator(base_list_of_atoms)]
     center_of_junction = centroid_calculator(base_list_of_points)
+
+    for bp in list_of_stem_pairs[3]:
+        if bp:
+            conn_residue_1 = get_residue(chain_test, bp[0])
+            conn_residue_2 = get_residue(chain_test, bp[1])
+            #print(conn_residue_1.resname)
+            conn_list_of_residues = [*conn_list_of_residues, [[conn_residue_1.full_id ,conn_residue_1.resname], [conn_residue_2.full_id],conn_residue_2.resname]]
+        else:
+            conn_list_of_residues = [*conn_list_of_residues, ['','']]
 
     #substructure save
     if save_substructure:
@@ -123,7 +134,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
 
         list_of_euler_angles.append(euler_angle_calculator(first_stem,second_stem))
 
-    return list_of_euler_angles, list_of_planar_angles, name_of_file, True
+    return list_of_euler_angles, list_of_planar_angles, name_of_file, conn_list_of_residues, True
 
 def save_structure(structure, list_of_stem_pairs, structure_PDB_ID, list_of_residues):
     """
@@ -179,10 +190,11 @@ def get_residue(list_of_chains, res_num, get_full_id = False):
     chain_id = 0
     while res_num>sum_of_chain_length:
         chain_id += 1
-        sum_of_chain_length += len(list_of_chains[chain_id].child_list)
+        sum_of_chain_length += len(list_of_chains[chain_id].child_list) +1
     if get_full_id:
         return list_of_chains[chain_id].child_list[res_num-1-(sum_of_chain_length - len(list_of_chains[chain_id].child_list))].full_id
     else:
-        return list_of_chains[chain_id].child_list[res_num - 1 - (sum_of_chain_length - len(list_of_chains[chain_id].child_list))]
+        x= res_num - 1 - (sum_of_chain_length - len(list_of_chains[chain_id].child_list))
+        return list_of_chains[chain_id].child_list[res_num-1-(sum_of_chain_length - len(list_of_chains[chain_id].child_list))]
 
 

@@ -36,6 +36,7 @@ def xml_generate(list_of_records):
                     ET.SubElement(connector, "field4", name="Sequence").text = str(connector_record.list_of_segment_seq[1:-1])
                     #ET.SubElement(connector, "field5", name="DB_Notation").text = str(connector_record.list_of_segment_db)
                     ET.SubElement(connector, "field5", name="Planar_angle").text = str(separator.join(map(str,connector_record.planar_angle[0])))
+                    #ET.SubElement(connector, "field5", name="Range_id").text = str(separator.join(map(str,connector_record.list_of_segments_ranges_id)))
 
                     euler_angles = ET.SubElement(connector, "Euler_Angles")
                     ET.SubElement(euler_angles, "field1", name="Angle_X").text = str(separator.join(map(str,extract_XML(0, connector_record.list_of_angles))))
