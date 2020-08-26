@@ -63,7 +63,7 @@ def common_stem_length(db_sequence, list_of_pairs):
                 start +=1
                 open_count += 1
         length_table.append(open_count)
-        while db_sequence[end] == ')' and end < len(db_sequence):
+        while db_sequence[end] == ')' and end < len(db_sequence)-1:
             end +=1
             end_count += 1
         if end_count == 1:
