@@ -6,7 +6,7 @@ from Bio.PDB import PDBList
 from pathlib import Path
 from Bio.PDB.mmcifio import MMCIFIO
 
-from Commons.TetriaryStructuresTools import StructureSelection2, points_to_vector_converter, generate_fragments
+from Commons.TetriaryStructuresTools import StructureSelection2, points_to_vector_converter, generate_fragments, remove_HOH_from_model
 from Commons.Utilities import is_non_zero_file, pairs_generator
 
 
@@ -61,22 +61,23 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     except:
         return [], [], '', base_list_of_points, False
 
+    structure = remove_HOH_from_model(structure)
     model = structure[0]
     chain_test = []
     chain = None
 
     for chain_to_include in structure_chains:
         if not chain:
-            chain = model[chain_to_include]
-            chain_test.append(model[chain_to_include])
+            chain = model[chain_to_include[0]]
+            chain_test.append(model[chain_to_include[0]])
         else:
-            chain_test.append(model[chain_to_include])
+            chain_test.append(model[chain_to_include[0]])
 
     for pair in list_of_stem_pairs[1]:
         residue_1 = get_residue(chain_test, pair[0])
         residue_2 = get_residue(chain_test, pair[1])
 
-        list_of_residues = [*list_of_residues, [residue_1.full_id, residue_2.full_id]]
+        list_of_residues = [*list_of_residues, [[residue_1.full_id,pair[0]], [residue_2.full_id,pair[1]]]]
 
         atoms_to_include = [*Selection.unfold_entities(residue_1, 'A'), *Selection.unfold_entities(residue_2, 'A')]
         list_of_atoms = [[atom.get_vector()[0],atom.get_vector()[1],atom.get_vector()[2]] for atom in atoms_to_include]
@@ -110,15 +111,16 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         all_included_residues = []
         pairs = generate_fragments(list_of_residues)
         for pair in pairs:
-            if pair[0][2] == pair[1][2]:
-                for x in range(pair[0][3][1], pair[1][3][1]+1):
+            if pair[0][0][2] == pair[1][0][2]:
+                for x in range(pair[0][1], pair[1][1]+1):
                     all_included_residues.append(get_residue(chain_test, x, True))
             else:
-                for x in range(pair[0][3][1], len(model[pair[0][2]])):
+
+                for x in range(pair[0][1], len(model[pair[0][0][2]])):
                     all_included_residues.append(get_residue(chain_test, x, True))
-                for x in range(1, pair[1][3][1]):
+                for x in range(1, pair[1][1]):
                     all_included_residues.append(get_residue(chain_test, x, True))
-        print(all_included_residues)
+        #print(all_included_residues)
         name_of_file = save_structure(structure, list_of_stem_pairs[1], structure_name, all_included_residues)
 
     else:

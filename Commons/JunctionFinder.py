@@ -134,7 +134,7 @@ class JunctionFinder:
         current_connector = Connector()
         current_connector.list_of_angles = []
         current_connector.planar_angle = []
-        current_connector.list_of_segments_ranges = segments_ranges[i]
+        current_connector.list_of_segments_ranges = segments_ranges[i] if segments_ranges[i][0]<=segments_ranges[i][1] else ''
         current_connector.list_of_segments_ranges_id = segment_ranges_ids[i]
         current_connector.lengths_of_segments=(pair[1] -1 - pair[0])
         current_connector.list_of_segment_db=(text[pair[0] - 1:pair[1]])

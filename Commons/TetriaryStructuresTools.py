@@ -8,7 +8,7 @@ def remove_nonRNA_atoms_from_model(model):
     chain_to_remove = []
     for chain in model:
         for residue in chain:
-            if str(residue.resname).strip() not in ['A', 'C', 'G', 'U']:
+            if str(residue.resname).strip() not in ['A', 'C', 'G', 'U' ]:
                     residue_to_remove.append((chain.id, residue.id))
             if len(chain) == 0:
                 chain_to_remove.append(chain.id)
@@ -19,6 +19,25 @@ def remove_nonRNA_atoms_from_model(model):
     for chain in chain_to_remove:
         model.detach_child(chain)
     return model
+
+def remove_HOH_from_model(structure):
+    list_of_aa = ['ALA', 'ARG', 'ASN', 'ASP', 'ASX', 'CYS', 'GLU', 'GLN', 'GLX', 'GLY', 'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
+    residue_to_remove= []
+    chain_to_remove = []
+    for model in structure:
+        for chain in model:
+            for residue in chain:
+                if (residue.id[0] in ('W', 'H_SO4')) or residue.resname in list_of_aa:
+                    residue_to_remove.append((chain.id, residue.id))
+            if len(chain) == 0:
+                chain_to_remove.append(chain.id)
+
+    for residue in residue_to_remove:
+        model[residue[0]].detach_child(residue[1])
+
+    for chain in chain_to_remove:
+        model.detach_child(chain)
+    return structure
 
 
 def points_to_vector_converter(center_of_junction, atom):

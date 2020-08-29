@@ -16,13 +16,13 @@ def xml_generate(list_of_records):
             ET.SubElement(junction, "field1", name="Type_of_junction").text = junction_record.type
             ET.SubElement(junction, "field2", name="Junction_PDB_File").text = str(separator.join(map(str,junction_record.name_of_file)))
             #ET.SubElement(junction, "field3", name="Stem lengths").text = str(separator.join(map(str,junction_record.segment_length)))
-            ET.SubElement(junction, "field3", name="DB_Notation").text = str(junction_record.sequence)
-            ET.SubElement(junction, "field4", name="Sequence").text = str(junction_record.list_of_segment_db)
+            ET.SubElement(junction, "field3", name="DB_Notation").text = str(junction_record.sequence).rstrip()
+            ET.SubElement(junction, "field4", name="Sequence").text = str(junction_record.list_of_segment_db).rstrip()
 
             stems = ET.SubElement(junction, "Stems")
             for stem_record in junction_record.list_of_stems:
                 stem = ET.SubElement(stems, "Stem")
-                ET.SubElement(stem, "field1", name="Duplex sequence").text = str(separator.join(map(str,stem_record.sequence)))
+                ET.SubElement(stem, "field1", name="Duplex sequence").text = str(separator.join(map(str,stem_record.sequence))).rstrip()
                 ET.SubElement(stem, "field2", name="Connectors").text = str(separator.join(map(str,sorted(stem_record.list_of_connectors))))
                 ET.SubElement(stem, "field3", name="Duplex lengths").text = str(stem_record.segment_length)
 
@@ -33,7 +33,7 @@ def xml_generate(list_of_records):
                     ET.SubElement(connector, "field1", name="ID").text = str(connector_record.connector_id)
                     ET.SubElement(connector, "field2", name="Range").text = str(separator.join(map(str,connector_record.list_of_segments_ranges)))
                     ET.SubElement(connector, "field3", name="Length").text = str(connector_record.lengths_of_segments)
-                    ET.SubElement(connector, "field4", name="Sequence").text = str(connector_record.list_of_segment_seq[1:-1])
+                    ET.SubElement(connector, "field4", name="Sequence").text = str(connector_record.list_of_segment_seq[1:-1]).rstrip()
                     #ET.SubElement(connector, "field5", name="DB_Notation").text = str(connector_record.list_of_segment_db)
                     ET.SubElement(connector, "field5", name="Planar_angle").text = str(separator.join(map(str,connector_record.planar_angle[0])))
                     #ET.SubElement(connector, "field5", name="Range_id").text = str(separator.join(map(str,connector_record.list_of_segments_ranges_id)))
