@@ -48,27 +48,25 @@ def find_junction(db_sequence, junction_start, common_stem_length_calc = True):
 def common_stem_length(db_sequence, list_of_pairs):
     length_table = []
     pair_length_table = []
-    for pair in list_of_pairs:
+    for i,pair in enumerate(list_of_pairs):
         start = pair[0]-1
         open_count = 0
         end = pair[1]-1
         end_count = 0
-        while db_sequence[start] == '(' and start >= 0:
-            start -=1
-            open_count += 1
-        if open_count == 1:
-            open_count = 0
-            start = pair[0]-1
+        if i == 0:
+            while db_sequence[start] == '(' and start >= 0:
+                start -=1
+                open_count += 1
+        else:
             while db_sequence[start] == '(':
                 start +=1
                 open_count += 1
         length_table.append(open_count)
-        while db_sequence[end] == ')' and end < len(db_sequence)-1:
-            end +=1
-            end_count += 1
-        if end_count == 1:
-            end_count = 0
-            end = pair[1]-1
+        if i == 0:
+            while db_sequence[end] == ')' and end < len(db_sequence)-1:
+                end +=1
+                end_count += 1
+        else:
             while db_sequence[end] == ')':
                 end -=1
                 end_count += 1
