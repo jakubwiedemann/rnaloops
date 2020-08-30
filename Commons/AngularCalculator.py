@@ -105,14 +105,19 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
             conn_list_of_residues = [*conn_list_of_residues, [[conn_residue_1.full_id ,conn_residue_1.resname], [conn_residue_2.full_id],conn_residue_2.resname]]
         else:
             conn_list_of_residues = [*conn_list_of_residues, ['','']]
+    list_of_residues_to_save = []
+    for pair in list_of_stem_pairs[2]:
+        res_1 = get_residue(chain_test, pair[0])
+        res_2 = get_residue(chain_test, pair[1])
+        list_of_residues_to_save = [*list_of_residues_to_save, [[res_1.full_id,pair[0]], [res_2.full_id,pair[1]]]]
 
     #substructure save
     if save_substructure:
         all_included_residues = []
-        pairs = generate_fragments(list_of_residues)
+        pairs = generate_fragments(list_of_residues_to_save)
         for pair in pairs:
             if pair[0][0][2] == pair[1][0][2]:
-                for x in range(pair[0][1], pair[1][1]+1):
+                for x in range(pair[0][1], pair[1][1]):
                     all_included_residues.append(get_residue(chain_test, x, True))
             else:
 
@@ -121,7 +126,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
                 for x in range(1, pair[1][1]):
                     all_included_residues.append(get_residue(chain_test, x, True))
         #print(all_included_residues)
-        name_of_file = save_structure(structure, list_of_stem_pairs[1], structure_name, all_included_residues)
+        name_of_file = save_structure(structure, list_of_stem_pairs[2], structure_name, all_included_residues)
 
     else:
         name_of_file = ''
@@ -148,6 +153,7 @@ def save_structure(structure, list_of_stem_pairs, structure_PDB_ID, list_of_resi
     :return: name of the created file
     """
     list_of_fragments = generate_fragments(list_of_stem_pairs)
+    list_of_fragments = [[item[0], item[1]-1] for item in list_of_fragments]
     stems_location = '_'.join(str(item) for sublist in list_of_fragments for item in sublist)
     name_of_file = structure_PDB_ID + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.cif'
     if not is_non_zero_file('./output/structures/' + (structure_PDB_ID + ".cif")):

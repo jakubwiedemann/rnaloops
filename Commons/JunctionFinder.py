@@ -97,11 +97,11 @@ class JunctionFinder:
         current_pair = []
         for i in range(number_of_stems):
             if i ==0:
-                start = position_of_connectors[i][0]  - max_stem_length[0][i]
+                start = position_of_connectors[i][0]  - max_stem_length[0][i] +1
                 end =  position_of_connectors[i][1]  + max_stem_length[0][i]
             else:
                 start = position_of_connectors[i][0]  + max_stem_length[0][i]
-                end =  position_of_connectors[i][1]  - max_stem_length[0][i]
+                end =  position_of_connectors[i][1]  - max_stem_length[0][i] + 1
             current_pair.append([start, end])
         extended_list_of_pairs.append(current_pair)
         return extended_list_of_pairs
