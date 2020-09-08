@@ -14,6 +14,48 @@ def find_matching_parenthesis(text, opening_position):
             counter -= 1
     return closing_position
 
+def find_matching_char(char, text, initial_position):
+    openList = ["[","{","<"]
+    closeList = ["]","}",">"]
+    if char in openList:
+        openChar = char
+        closeChar = closeList[openList.index(openChar)]
+        char_position = initial_position
+        counter = 1
+        while counter > 0:
+            char_position += 1
+            char = text[char_position]
+            if char == openChar:
+                counter += 1
+            if char == closeChar:
+                counter -= 1
+    else:
+        closeChar = char
+        openChar = openList[closeList.index(closeChar)]
+        char_position = initial_position
+        counter = 1
+        while counter > 0:
+            char_position -= 1
+            char = text[char_position]
+            if char == closeChar:
+                counter += 1
+            if char == openChar:
+                counter -= 1
+    return char_position
+
+def fill_secondary(conectors, text):
+    connectors_ss = []
+    chars = ['.','(',')']
+    for connector in conectors:
+        for nucl_no in range(connector[0],connector[1]):
+            if text[nucl_no] not in chars:
+                paired_bracket_loc = find_matching_char(text[nucl_no], text, nucl_no)
+                if all(paired_bracket_loc not in range(pair[0],pair[1]) for pair in conectors):
+                    text = text[:nucl_no] + '.' + text[nucl_no+1:]
+                    text = text[:paired_bracket_loc] + '.' + text[paired_bracket_loc+1:]
+        connectors_ss.append(text[connector[0]:connector[1]])
+    return connectors_ss, text
+
 
 def find_junction(db_sequence, junction_start, common_stem_length_calc = True):
     stems_identified = 0

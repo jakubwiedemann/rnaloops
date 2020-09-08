@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from Commons.AngularCalculator import calculate_euler_angles_pairwise
 from Commons.DataStructures import Junction, Stem, Connector
-from Commons.SecondaryStructureTools import find_junction
+from Commons.SecondaryStructureTools import find_junction, fill_secondary
 from Commons.TetriaryStructuresTools import generate_fragments
 from Commons.Utilities import pairs_generator, extract
 
@@ -66,13 +66,14 @@ class JunctionFinder:
                 segments_ranges = [[p[0]+1, p[1]-1] for p in segments_ranges]
                 segment_ranges_ids = id_pairs
 
-
+                list_db = []
+                list_db, srt_db = fill_secondary(list_of_fragments,text)
                 for i, pair in enumerate(list_of_fragments):
                     if i == len(list_of_fragments)-1:
-                        sequence1=(text[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][0]-1])
+                        sequence1=(srt_db[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][0]-1])
                         list_of_segment_db=(sequence[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][0]-1])
                     else:
-                        sequence1=(text[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
+                        sequence1=(srt_db[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
                         list_of_segment_db=(sequence[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
                     current_junction.sequence += sequence1
                     current_junction.list_of_segment_db += list_of_segment_db

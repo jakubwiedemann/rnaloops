@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from Commons.SecondaryStructureTools import find_matching_parenthesis, find_junction
+from Commons.SecondaryStructureTools import find_matching_parenthesis, find_junction, find_matching_char, fill_secondary
 
 class TestSecondaryStructureTools(TestCase):
     def test_find_matching_parenthesis_1(self):
@@ -26,4 +26,14 @@ class TestSecondaryStructureTools(TestCase):
         self.assertFalse(find_junction(test_string, 0)[0])
         self.assertEqual(find_junction(test_string, 0)[1], 0)
         self.assertEqual(find_junction(test_string, 0)[1], 0)
+
+    def test_find_matching_char_1(self):
+        test_string = '(.[.((.])).(.)...)'
+        self.assertEqual(find_matching_char('[', test_string, 2 ),7)
+        self.assertEqual(find_matching_char(']', test_string, 7 ),2)
+
+    def test_fill_secondary_1(self):
+        test_string = '(.[.((.])).(.)...)'
+        connectors = [[0,3],[4,4],[8,10]]
+        self.assertEqual(fill_secondary(connectors, test_string), ['(..','','))'])
 
