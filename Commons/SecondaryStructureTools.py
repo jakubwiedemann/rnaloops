@@ -15,8 +15,8 @@ def find_matching_parenthesis(text, opening_position):
     return closing_position
 
 def find_matching_char(char, text, initial_position):
-    openList = ["[","{","<"]
-    closeList = ["]","}",">"]
+    openList = ["[","{","<","A","B","C","D","E"]
+    closeList = ["]","}",">","a","b","c","d","e"]
     if char in openList:
         openChar = char
         closeChar = closeList[openList.index(openChar)]
@@ -29,7 +29,7 @@ def find_matching_char(char, text, initial_position):
                 counter += 1
             if char == closeChar:
                 counter -= 1
-    else:
+    elif char in closeList:
         closeChar = char
         openChar = openList[closeList.index(closeChar)]
         char_position = initial_position
@@ -41,6 +41,9 @@ def find_matching_char(char, text, initial_position):
                 counter += 1
             if char == openChar:
                 counter -= 1
+    else:
+        char_position = initial_position
+
     return char_position
 
 def fill_secondary(conectors, text):
