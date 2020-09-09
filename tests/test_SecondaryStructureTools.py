@@ -35,5 +35,13 @@ class TestSecondaryStructureTools(TestCase):
     def test_fill_secondary_1(self):
         test_string = '(.[.((.])).(.)...)'
         connectors = [[0,3],[4,4],[8,10]]
-        self.assertEqual(fill_secondary(connectors, test_string), ['(..','','))'])
+        self.assertEqual(fill_secondary(connectors, test_string)[0], ['(..','','))'])
+        self.assertEqual(fill_secondary(connectors, test_string)[1], '(...((..)).(.)...)')
+
+    def test_fill_secondary_2(self):
+        test_string = '(.[.((.])).(.)...)'
+        connectors = [[0,3],[4,8],[9,10]]
+        self.assertEqual(fill_secondary(connectors, test_string)[0], ['(.[', '((.]', ')'])
+        self.assertEqual(fill_secondary(connectors, test_string)[1], '(.[.((.])).(.)...)')
+
 
