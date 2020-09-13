@@ -66,7 +66,6 @@ def standardize_model(structure):
                             atom_id[0] = ' '
                             atom_tuple = tuple(atom_id)
                             atom.full_id = [atom.full_id[0], atom.full_id[1], atom.full_id[2], atom_tuple, atom.full_id[4]]
-                            print(atom)
 
 
             if len(chain) == 0:
