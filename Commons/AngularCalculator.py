@@ -6,7 +6,7 @@ from Bio.PDB import PDBList
 from pathlib import Path
 from Bio.PDB.mmcifio import MMCIFIO
 
-from Commons.TetriaryStructuresTools import StructureSelection2, points_to_vector_converter, generate_fragments, remove_HOH_from_model
+from Commons.TetriaryStructuresTools import StructureSelection2, points_to_vector_converter, generate_fragments, remove_HOH_from_model, standardize_model
 from Commons.Utilities import is_non_zero_file, pairs_generator
 
 
@@ -61,7 +61,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     except:
         return [], [], '', base_list_of_points, False
 
-    structure = remove_HOH_from_model(structure)
+    structure = standardize_model(structure)
     model = structure[0]
     chain_test = []
     chain = None
@@ -125,8 +125,18 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
                     all_included_residues.append(get_residue(chain_test, x, True))
                 for x in range(1, pair[1][1]):
                     all_included_residues.append(get_residue(chain_test, x, True))
+        fragments = []
+        list_of_res = generate_fragments(list_of_stem_pairs[2])
+        for pair in list_of_res:
+
+            start_res = get_residue(chain_test, pair[0], True)
+            start = str(start_res[2]) + str(start_res[3][1])
+            end_res = get_residue(chain_test, pair[1], True)
+            end = str(end_res[2]) + str(end_res[3][1]-1)
+            fragments.append([start,end])
+
         #print(all_included_residues)
-        name_of_file = save_structure(structure, list_of_stem_pairs[2], structure_name, all_included_residues)
+        name_of_file = save_structure(structure, fragments, structure_name, all_included_residues)
 
     else:
         name_of_file = ''
@@ -152,8 +162,8 @@ def save_structure(structure, list_of_stem_pairs, structure_PDB_ID, list_of_resi
     :param list_of_residues: list of residues full IDs that junction consist of
     :return: name of the created file
     """
-    list_of_fragments = generate_fragments(list_of_stem_pairs)
-    list_of_fragments = [[item[0], item[1]-1] for item in list_of_fragments]
+    list_of_fragments = list_of_stem_pairs
+    #list_of_fragments = [[item[0], item[1]-1] for item in list_of_fragments]
     stems_location = '_'.join(str(item) for sublist in list_of_fragments for item in sublist)
     name_of_file = structure_PDB_ID + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.cif'
     if not is_non_zero_file('./output/structures/' + (structure_PDB_ID + ".cif")):
@@ -198,7 +208,7 @@ def get_residue(list_of_chains, res_num, get_full_id = False):
     chain_id = 0
     while res_num>sum_of_chain_length:
         chain_id += 1
-        sum_of_chain_length += len(list_of_chains[chain_id].child_list) +1
+        sum_of_chain_length += len(list_of_chains[chain_id].child_list)
     if get_full_id:
         return list_of_chains[chain_id].child_list[res_num-1-(sum_of_chain_length - len(list_of_chains[chain_id].child_list))].full_id
     else:

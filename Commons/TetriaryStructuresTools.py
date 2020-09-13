@@ -29,8 +29,48 @@ def remove_HOH_from_model(structure):
             for residue in chain:
                 if (residue.id[0] in ('W', 'H_SO4')) or residue.resname in list_of_aa:
                     residue_to_remove.append((chain.id, residue.id))
+
             if len(chain) == 0:
                 chain_to_remove.append(chain.id)
+
+    for residue in residue_to_remove:
+        model[residue[0]].detach_child(residue[1])
+
+    for chain in chain_to_remove:
+        model.detach_child(chain)
+    return structure
+
+def standardize_model(structure):
+    list_of_nucleotides = ['A', 'C', 'G', 'U', '1MA', '2MG', '5MC', '5MU', '7MG', 'H2U', 'M2G', 'OMC', 'OMG', 'PSU', 'YG', '4SU', 'MIA']
+    non_standard_residues = {'MIA':'A', '1MA':'A', '2MG':'G', '5MC': 'C', '5MU': 'U', '7MG': 'G', 'H2U': 'U', 'M2G':'G', 'OMC':'C', 'OMG':'G', 'PSU':'U', 'YG':'G', '4SU':'U'}
+    acceptable_atoms = ['C2', 'C4', 'C6', 'C8', 'N1', 'N2', 'N3', 'N4', 'N6', 'N7', 'N9', 'O2', 'O4', 'O6', 'C1\'', 'C2\'', 'C3\'', 'C4\'', 'C5\'', 'O2\'', 'O3\'', 'O4\'', 'O5\'', 'OP1', 'OP2', 'P' ]
+    residue_to_remove= []
+    chain_to_remove = []
+    atom_to_remove = []
+    for model in structure:
+        for chain in model:
+            for residue in chain:
+                if residue.resname not in list_of_nucleotides:
+                    residue_to_remove.append((chain.id, residue.id))
+                if residue.resname in non_standard_residues:
+                    residue.resname = non_standard_residues[residue.resname]
+                    residue_id = list(residue.id)
+                    residue_id[0] = ' '
+                    residue.id = tuple(residue_id)
+                    for atom in residue:
+                        if atom.id not in acceptable_atoms:
+                            atom_to_remove.append((chain.id, residue.id, atom.id))
+                            atom_id = list(atom.full_id[3])
+                            atom_id[0] = ' '
+                            atom_tuple = tuple(atom_id)
+                            atom.full_id = [atom.full_id[0], atom.full_id[1], atom.full_id[2], atom_tuple, atom.full_id[4]]
+                            print(atom)
+
+
+            if len(chain) == 0:
+                chain_to_remove.append(chain.id)
+    for atom in atom_to_remove:
+        model[atom[0]][atom[1]].detach_child(atom[2])
 
     for residue in residue_to_remove:
         model[residue[0]].detach_child(residue[1])
