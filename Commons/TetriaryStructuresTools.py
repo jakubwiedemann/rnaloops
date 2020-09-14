@@ -42,10 +42,11 @@ def remove_HOH_from_model(structure):
 
 def standardize_model(structure):
     list_of_nucleotides = ['A', 'C', 'G', 'U', '1MA', '2MG', '5MC', '5MU', '7MG', 'H2U', 'M2G', 'OMC', 'OMG', 'PSU', 'YG', '4SU', 'MIA', 'I', 'DA', 'DT',
-                             'DC', 'DU', 'DI', 'DA', 'DG']
+                             'DC', 'DU', 'DI', 'DA', 'DG', 'OHX']
     non_standard_residues = {'MIA':'A', '1MA':'A', '2MG':'G', '5MC': 'C', '5MU': 'U', '7MG': 'G', 'H2U': 'U', 'M2G':'G', 'OMC':'C', 'OMG':'G', 'PSU':'U', 'YG':'G', '4SU':'U', 'DA': 'A', 'DT': 'T',
                              'DC': 'C', 'DU': 'U', 'DI': 'I', 'DA': 'A', 'DG:':'G'}
     acceptable_atoms = ['C2', 'C4', 'C6', 'C8', 'N1', 'N2', 'N3', 'N4', 'N6', 'N7', 'N9', 'O2', 'O4', 'O6', 'C1\'', 'C2\'', 'C3\'', 'C4\'', 'C5\'', 'O2\'', 'O3\'', 'O4\'', 'O5\'', 'OP1', 'OP2', 'P' ]
+    list_of_aa = ['ALA', 'ARG', 'ASN', 'ASP', 'ASX', 'CYS', 'GLU', 'GLN', 'GLX', 'GLY', 'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
     residue_to_remove= []
     chain_to_remove = []
     atom_to_remove = []
@@ -53,14 +54,17 @@ def standardize_model(structure):
         for chain in model:
             for residue in chain:
                 if residue.resname not in list_of_nucleotides:
+
                     residue_to_remove.append((chain.id, residue.id))
                 if residue.resname in non_standard_residues:
+
                     residue.resname = non_standard_residues[residue.resname]
                     residue_id = list(residue.id)
                     residue_id[0] = ' '
                     residue.id = tuple(residue_id)
                     for atom in residue:
                         if atom.id not in acceptable_atoms:
+
                             atom_to_remove.append((chain.id, residue.id, atom.id))
                             atom_id = list(atom.full_id[3])
                             atom_id[0] = ' '
