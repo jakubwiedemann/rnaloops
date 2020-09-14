@@ -5,6 +5,7 @@ from Bio.PDB import *
 from Bio.PDB import PDBList
 from pathlib import Path
 from Bio.PDB.mmcifio import MMCIFIO
+from Bio.PDB import MMCIF2Dict
 
 from Commons.TetriaryStructuresTools import StructureSelection2, points_to_vector_converter, generate_fragments, remove_HOH_from_model, standardize_model
 from Commons.Utilities import is_non_zero_file, pairs_generator
@@ -60,7 +61,16 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         structure = get_structure(pdb_data_folder, structure_name)
     except:
         return [], [], '', base_list_of_points, False
+    f = open(pdb_data_folder / (structure_name + '.cif'), 'r')
+#    dictionary_non_standart_residue = []
+#   for line in f:
 
+#        if line.startswith('_pdbx_struct_mod_residue.label_comp_id'):
+#            key = line.split()[1]
+#        if line.startswith('_pdbx_struct_mod_residue.parent_comp_id'):
+#            value = line.split()[1]
+#            dictionary_non_standart_residue.append([key, value])
+#    structure = standardize_model(structure, dictionary_non_standart_residue)
     structure = standardize_model(structure)
     model = structure[0]
     chain_test = []

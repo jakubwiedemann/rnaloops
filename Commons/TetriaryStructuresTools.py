@@ -41,15 +41,26 @@ def remove_HOH_from_model(structure):
     return structure
 
 def standardize_model(structure):
+    non_standard_residues_A = ['00A', 'A2M', '0DA', '12A', '1AP', '1MA', '26A', '2BU', '2DA', '2MA',
+                               '31H', '31M', '3DA', '45A', '5AA', '5FA', '6HB', '6IA', '6MA', '6MZ',
+                               '6NW', '7AT', '7DA', '8AN', '8BA', 'A23', 'A2L', 'A2M', '6MA', 'A40',
+                               'A38', 'A2M', 'A3A', 'A3P', 'A40', 'A43', 'A44', 'A47', 'A7E', 'A9Z',
+                               'ABR', 'ABS', 'AD2', 'ADI', 'ADP', 'AF2', 'AMD', 'AMO', 'AP7', 'AS',
+                               'AVC', 'DA',  'E',   'F3N', 'G3A', 'M7A', 'MA6', 'MA7', '1MA', 'MIA',
+                               'PPU', 'PU',  'R',   'RBD', 'RIA', 'RMP', 'S4A', 'SDE', 'SMP', 'SRA',
+                               'TBN', 'V3L', 'XUA', 'Y']
     list_of_nucleotides = ['A', 'C', 'G', 'U', '1MA', '2MG', '5MC', '5MU', '7MG', 'H2U', 'M2G', 'OMC', 'OMG', 'PSU', 'YG', '4SU', 'MIA', 'I', 'DA', 'DT',
-                             'DC', 'DU', 'DI', 'DA', 'DG', 'OHX', 'FHU']
+                             'DC', 'DU', 'DI', 'DA', 'DG', 'OHX', 'FHU', 'AET']
     non_standard_residues = {'MIA':'A', '1MA':'A', '2MG':'G', '5MC': 'C', '5MU': 'U', '7MG': 'G', 'H2U': 'U', 'M2G':'G', 'OMC':'C', 'OMG':'G', 'PSU':'U', 'YG':'G', '4SU':'U', 'DA': 'A', 'DT': 'T',
-                             'DC': 'C', 'DU': 'U', 'DI': 'I', 'DA': 'A', 'DG:':'G', 'FHU': 'U'}
+                             'DC': 'C', 'DU': 'U', 'DI': 'I', 'DA': 'A', 'DG:':'G', 'FHU': 'U', 'AET':'A'}
     acceptable_atoms = ['C2', 'C4', 'C6', 'C8', 'N1', 'N2', 'N3', 'N4', 'N6', 'N7', 'N9', 'O2', 'O4', 'O6', 'C1\'', 'C2\'', 'C3\'', 'C4\'', 'C5\'', 'O2\'', 'O3\'', 'O4\'', 'O5\'', 'OP1', 'OP2', 'P' ]
     list_of_aa = ['ALA', 'ARG', 'ASN', 'ASP', 'ASX', 'CYS', 'GLU', 'GLN', 'GLX', 'GLY', 'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
     residue_to_remove= []
     chain_to_remove = []
     atom_to_remove = []
+    #extended = [pair[0] for pair in dictionary_non_standart_residue]
+    #list_of_nucleotides = [*list_of_nucleotides, *extended]
+    #non_standard_residues = dict(dictionary_non_standart_residue)
     for model in structure:
         for chain in model:
             for residue in chain:
@@ -78,6 +89,7 @@ def standardize_model(structure):
         model[atom[0]][atom[1]].detach_child(atom[2])
 
     for residue in residue_to_remove:
+        print(residue)
         model[residue[0]].detach_child(residue[1])
 
     for chain in chain_to_remove:
