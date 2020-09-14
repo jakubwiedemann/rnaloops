@@ -42,9 +42,9 @@ def remove_HOH_from_model(structure):
 
 def standardize_model(structure):
     list_of_nucleotides = ['A', 'C', 'G', 'U', '1MA', '2MG', '5MC', '5MU', '7MG', 'H2U', 'M2G', 'OMC', 'OMG', 'PSU', 'YG', '4SU', 'MIA', 'I', 'DA', 'DT',
-                             'DC', 'DU', 'DI', 'DA', 'DG', 'OHX']
+                             'DC', 'DU', 'DI', 'DA', 'DG', 'OHX', 'FHU']
     non_standard_residues = {'MIA':'A', '1MA':'A', '2MG':'G', '5MC': 'C', '5MU': 'U', '7MG': 'G', 'H2U': 'U', 'M2G':'G', 'OMC':'C', 'OMG':'G', 'PSU':'U', 'YG':'G', '4SU':'U', 'DA': 'A', 'DT': 'T',
-                             'DC': 'C', 'DU': 'U', 'DI': 'I', 'DA': 'A', 'DG:':'G'}
+                             'DC': 'C', 'DU': 'U', 'DI': 'I', 'DA': 'A', 'DG:':'G', 'FHU': 'U'}
     acceptable_atoms = ['C2', 'C4', 'C6', 'C8', 'N1', 'N2', 'N3', 'N4', 'N6', 'N7', 'N9', 'O2', 'O4', 'O6', 'C1\'', 'C2\'', 'C3\'', 'C4\'', 'C5\'', 'O2\'', 'O3\'', 'O4\'', 'O5\'', 'OP1', 'OP2', 'P' ]
     list_of_aa = ['ALA', 'ARG', 'ASN', 'ASP', 'ASX', 'CYS', 'GLU', 'GLN', 'GLX', 'GLY', 'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
     residue_to_remove= []
