@@ -71,7 +71,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
 #            value = line.split()[1]
 #            dictionary_non_standart_residue.append([key, value])
 #    structure = standardize_model(structure, dictionary_non_standart_residue)
-    structure = standardize_model(structure)
+    #structure = standardize_model(structure)
     model = structure[0]
     chain_test = []
     chain = None

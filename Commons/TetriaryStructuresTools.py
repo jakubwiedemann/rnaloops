@@ -48,7 +48,17 @@ def standardize_model(structure):
                                'ABR', 'ABS', 'AD2', 'ADI', 'ADP', 'AF2', 'AMD', 'AMO', 'AP7', 'AS',
                                'AVC', 'DA',  'E',   'F3N', 'G3A', 'M7A', 'MA6', 'MA7', '1MA', 'MIA',
                                'PPU', 'PU',  'R',   'RBD', 'RIA', 'RMP', 'S4A', 'SDE', 'SMP', 'SRA',
-                               'TBN', 'V3L', 'XUA', 'Y']
+                               'TBN', 'V3L', 'XUA', 'Y', 'MGQ']
+    non_standard_residues_G = ['0AD', '0G',  '18M', '1MG', '23G', '2EG', '2JV', '2MG', '2SG', '5CG',
+                               '6OG', '7GU', '7MG', '8AA', '8AG', '8FG', '8MG', '8OG', '8OS', 'B8K',
+                               'B8W', 'B9B', 'BGM', 'CG1', 'DGP', 'DDG', 'DG',  'DG8', 'DGI', 'DGP',
+                               'E6G', 'E7G', 'EFG', 'EQ4', 'F74', 'G1G', 'G2L', 'G2S', 'G31', '6OG',
+                               '8MG', 'G36', 'G38', 'G3A', '8OG', 'G46', 'G47', 'G48', 'G49', 'G7M',
+                               'GDO', 'GDP', 'GDR', 'GF2', 'GFL', 'GH3', 'GMS', 'GN7', 'GNG', 'GRB',
+                               'GS',  'GSR', 'GSS', 'GTP', 'GX1', 'HN0', 'IG',  'KAG', 'KAK', 'LDG',
+                               'LGP', 'M2G', 'MG1', 'MGT', 'MGV', 'MHG', 'MRG', 'O2G', 'OGX', 'OMG',
+                               'P',   'P7G', 'PGN', 'PGP', 'PPW', 'QUO', 'RDG', 'RFJ', 'S4G', 'S6G',
+                               'TGP', 'TPG', 'XPB', 'XUG', 'YYG', 'IGU']
     list_of_nucleotides = ['A', 'C', 'G', 'U', '1MA', '2MG', '5MC', '5MU', '7MG', 'H2U', 'M2G', 'OMC', 'OMG', 'PSU', 'YG', '4SU', 'MIA', 'I', 'DA', 'DT',
                              'DC', 'DU', 'DI', 'DA', 'DG', 'OHX', 'FHU', 'AET']
     non_standard_residues = {'MIA':'A', '1MA':'A', '2MG':'G', '5MC': 'C', '5MU': 'U', '7MG': 'G', 'H2U': 'U', 'M2G':'G', 'OMC':'C', 'OMG':'G', 'PSU':'U', 'YG':'G', '4SU':'U', 'DA': 'A', 'DT': 'T',
