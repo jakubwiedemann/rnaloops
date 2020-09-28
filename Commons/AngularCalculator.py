@@ -140,9 +140,9 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         for pair in list_of_res:
 
             start_res = get_residue(chain_test, pair[0], True)
-            start = str(start_res[2]) + str(start_res[3][1])
+            start = str(start_res[2]) +'-'+ str(start_res[3][1])
             end_res = get_residue(chain_test, pair[1], True)
-            end = str(end_res[2]) + str(end_res[3][1]-1)
+            end = str(end_res[2]) +'-'+ str(end_res[3][1]-1)
             fragments.append([start,end])
 
         #print(all_included_residues)
@@ -161,7 +161,18 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
 
         list_of_euler_angles.append(euler_angle_calculator(first_stem,second_stem))
 
-    return list_of_euler_angles, list_of_planar_angles, name_of_file, conn_list_of_residues, True
+    fragments_to_range = []
+    for pair in list_of_stem_pairs[3]:
+        if pair:
+            start_res = get_residue(chain_test, pair[0], True)
+            start = str(start_res[2]) +'-'+ str(start_res[3][1])
+            end_res = get_residue(chain_test, pair[1], True)
+            end = str(end_res[2]) +'-'+ str(end_res[3][1])
+            fragments_to_range.append([start,end])
+        else:
+            fragments_to_range.append(['',''])
+
+    return list_of_euler_angles, list_of_planar_angles, name_of_file, conn_list_of_residues, fragments_to_range, True
 
 def save_structure(structure, list_of_stem_pairs, structure_PDB_ID, list_of_residues):
     """

@@ -48,7 +48,7 @@ class JunctionFinder:
                 files_collection = []
 
 
-                list_of_euler_angles, planar_angle, junction_substructure_file, id_pairs, valid= calculate_euler_angles_pairwise(list_of_pairs, name_of_structure, chains)
+                list_of_euler_angles, planar_angle, junction_substructure_file, id_pairs, fragments, valid= calculate_euler_angles_pairwise(list_of_pairs, name_of_structure, chains)
                 if not(valid):
                     return [], [], False
                 euler_collection.append(list_of_euler_angles)
@@ -78,7 +78,7 @@ class JunctionFinder:
                     current_junction.sequence += sequence1
                     current_junction.list_of_segment_db += list_of_segment_db
 
-                list_of_connectors = [JunctionFinder.set_connector_record(i, segments_ranges, segment_ranges_ids, text, pair, sequence, euler_collection, planar_collection) for i,pair in enumerate(list_of_fragments)]
+                list_of_connectors = [JunctionFinder.set_connector_record(i, segments_ranges, segment_ranges_ids, text, pair, sequence, euler_collection, planar_collection, fragments) for i,pair in enumerate(list_of_fragments)]
 
                 connector_pairs = []
                 for connector in pairs_generator(range(len(list_of_connectors))):
@@ -131,11 +131,11 @@ class JunctionFinder:
         return current_stem
 
     @classmethod
-    def set_connector_record(cls, i, segments_ranges, segment_ranges_ids, text, pair, sequence, euler_collection, planar_collection):
+    def set_connector_record(cls, i, segments_ranges, segment_ranges_ids, text, pair, sequence, euler_collection, planar_collection, fragments):
         current_connector = Connector()
         current_connector.list_of_angles = []
         current_connector.planar_angle = []
-        current_connector.list_of_segments_ranges = segments_ranges[i] if segments_ranges[i][0]<=segments_ranges[i][1] else ''
+        current_connector.list_of_segments_ranges = fragments[i] if segments_ranges[i][0]<=segments_ranges[i][1] else ''
         current_connector.list_of_segments_ranges_id = segment_ranges_ids[i]
         current_connector.lengths_of_segments=(pair[1] -1 - pair[0])
         current_connector.list_of_segment_db=(text[pair[0] - 1:pair[1]])
