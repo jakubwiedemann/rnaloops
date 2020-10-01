@@ -124,11 +124,13 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     #substructure save
     if save_substructure:
         all_included_residues = []
+        frag = []
         pairs = generate_fragments(list_of_residues_to_save)
         for pair in pairs:
             if pair[0][0][2] == pair[1][0][2]:
                 for x in range(pair[0][1], pair[1][1]):
                     all_included_residues.append(get_residue(chain_test, x, True))
+
             else:
 
                 for x in range(pair[0][1], len(model[pair[0][0][2]])):
@@ -142,7 +144,11 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
             start_res = get_residue(chain_test, pair[0], True)
             start = str(start_res[2]) +'-'+ str(start_res[3][1])
             end_res = get_residue(chain_test, pair[1], True)
-            end = str(end_res[2]) +'-'+ str(end_res[3][1]-1)
+            if end_res[3][1] > 1:
+                end = str(end_res[2]) +'-'+ str(end_res[3][1]-1)
+            else:
+                end_res = get_residue(chain_test, pair[1]-1, True)
+                end = str(end_res[2]) +'-'+ str(end_res[3][1])
             fragments.append([start,end])
 
         #print(all_included_residues)
