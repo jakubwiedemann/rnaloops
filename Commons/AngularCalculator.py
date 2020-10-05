@@ -61,17 +61,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         structure = get_structure(pdb_data_folder, structure_name)
     except:
         return [], [], '', base_list_of_points, False
-    f = open(pdb_data_folder / (structure_name + '.cif'), 'r')
-#    dictionary_non_standart_residue = []
-#   for line in f:
 
-#        if line.startswith('_pdbx_struct_mod_residue.label_comp_id'):
-#            key = line.split()[1]
-#        if line.startswith('_pdbx_struct_mod_residue.parent_comp_id'):
-#            value = line.split()[1]
-#            dictionary_non_standart_residue.append([key, value])
-#    structure = standardize_model(structure, dictionary_non_standart_residue)
-    #structure = standardize_model(structure)
     model = structure[0]
     chain_test = []
     chain = None
@@ -120,39 +110,23 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         res_1 = get_residue(chain_test, pair[0])
         res_2 = get_residue(chain_test, pair[1])
         list_of_residues_to_save = [*list_of_residues_to_save, [[res_1.full_id,pair[0]], [res_2.full_id,pair[1]]]]
-
+    filename = []
     #substructure save
     if save_substructure:
         all_included_residues = []
         frag = []
         pairs = generate_fragments(list_of_residues_to_save)
+
         for pair in pairs:
-            if pair[0][0][2] == pair[1][0][2]:
-                for x in range(pair[0][1], pair[1][1]):
-                    all_included_residues.append(get_residue(chain_test, x, True))
 
-            else:
-
-                for x in range(pair[0][1], len(model[pair[0][0][2]])):
-                    all_included_residues.append(get_residue(chain_test, x, True))
-                for x in range(len(model[pair[0][0][2]]), pair[1][1]):
-                    all_included_residues.append(get_residue(chain_test, x, True))
-        fragments = []
-        list_of_res = generate_fragments(list_of_stem_pairs[2])
-        for pair in list_of_res:
-
-            start_res = get_residue(chain_test, pair[0], True)
-            start = str(start_res[2]) +'-'+ str(start_res[3][1])
-            end_res = get_residue(chain_test, pair[1], True)
-            if end_res[3][1] > 1:
-                end = str(end_res[2]) +'-'+ str(end_res[3][1]-1)
-            else:
-                end_res = get_residue(chain_test, pair[1]-1, True)
-                end = str(end_res[2]) +'-'+ str(end_res[3][1])
-            fragments.append([start,end])
+            for x in range(pair[0][1], pair[1][1]):
+                all_included_residues.append(get_residue(chain_test, x, True))
+            opening_residue = get_residue(chain_test, pair[0][1], True)
+            closing_residue = get_residue(chain_test,  pair[1][1]-1, True)
+            filename = [*filename, [str(opening_residue[2])+ '-' +str(opening_residue[3][1]) , str(closing_residue[2])+ '-' +str(closing_residue[3][1])]]
 
         #print(all_included_residues)
-        name_of_file = save_structure(structure, fragments, structure_name, all_included_residues)
+        name_of_file = save_structure(structure, filename, structure_name, all_included_residues)
 
     else:
         name_of_file = ''
