@@ -166,11 +166,11 @@ def save_structure(structure, list_of_stem_pairs, structure_PDB_ID, list_of_resi
     list_of_fragments = list_of_stem_pairs
     #list_of_fragments = [[item[0], item[1]-1] for item in list_of_fragments]
     stems_location = '_'.join(str(item) for sublist in list_of_fragments for item in sublist)
-    name_of_file = structure_PDB_ID + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.cif'
+    name_of_file = structure_PDB_ID + '_' + str(len(list_of_stem_pairs)) + 'WJ' + '_' + stems_location + '.cif'
     if not is_non_zero_file('./output/structures/' + (structure_PDB_ID + ".cif")):
         io=MMCIFIO()
         io.set_structure(structure)
-        name_of_file = structure_PDB_ID + '_' + str(len(list_of_stem_pairs)) + '-way_junction' + '_' + stems_location + '.cif'
+        name_of_file = structure_PDB_ID + '_' + str(len(list_of_stem_pairs)) + 'WJ' + '_' + stems_location + '.cif'
         io.save('./output/structures/' + name_of_file, StructureSelection2(list_of_residues))
     return name_of_file
 
