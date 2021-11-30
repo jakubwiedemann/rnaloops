@@ -34,7 +34,7 @@ if __name__ == "__main__":
             if len(sys.argv) > 2:
                 single_files_from_pdbee(sys.argv[2])
             else:
-                single_files_from_pdbee(config.path_to_dotbracket_files)
+                print('No files provided!')
         elif sys.argv[1].upper() == 'MERGE':
             Commons.XML_Generator.newRunRun()
         else:

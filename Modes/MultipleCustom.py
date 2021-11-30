@@ -80,7 +80,6 @@ def single_files_from_pdbee(filename):
     list_of_junction_types = []
     list_of_records = []
 
-    print(filename)
     sequence = ''
     dot_bracket_representation = ''
     name_of_the_file = Path(filename)
