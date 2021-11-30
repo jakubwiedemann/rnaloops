@@ -5,7 +5,7 @@ Basic requirements:
     Python >= 3.6
     Updated pip
 
-To install python we reccomend using one of the Python distribution available on https://www.python.org/. The installation process is nicely described od https://realpython.com/installing-python/.
+To install python we recommend using one of the Python distribution available on https://www.python.org/. The installation process is nicely described od https://realpython.com/installing-python/.
 
 pip is already installed if you are using Python 2 >=2.7.9 or Python 3 >=3.4 downloaded from python.org. To update it depending on you OS you can use
 
@@ -36,7 +36,7 @@ In ./dotbracket_files/test_multiple/ folder is placed a dot-bracket structure ge
 1GRZ contains 4 different 3-way junctions.
 
 To run use: 
-python main.py commnand.
+python main.py command.
 
 After running, in ./output folder program generates RESULT.xml file and folder /structures with 3D structures of the found n-way junctions.
 

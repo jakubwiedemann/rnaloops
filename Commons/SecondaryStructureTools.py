@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
-
+BP_O = "([{<ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+BP_C = ")]}>abcdefghijklmnopqrstuvwxyz"
 
 def find_matching_parenthesis(text, opening_position):
     closing_position = opening_position
@@ -60,7 +61,103 @@ def fill_secondary(conectors, text):
     return connectors_ss, text
 
 
-def find_junction(db_sequence, junction_start, common_stem_length_calc = True):
+def identify_loop_outermost_bps(structure_2d, bps_dict, outer_bps, mode, loop_outermost_bps):
+    complexity = 0
+    out_list = []
+    for i, bp in enumerate(outer_bps):
+        pairs = []
+        complexity = 0
+        bpo = bpc = bp[0]
+        wrong = False
+        continous_fragments = []
+        while(bpc + 1 != bp[1]):
+            for bpc in range(bpo,len(structure_2d)):
+                oidx = BP_O.find(structure_2d[bpc])
+                cidx = BP_C.find(structure_2d[bpc])
+                if (mode == 0 and (oidx == 0 or cidx == 0)) or (mode != 0  and ((oidx >= 0 and oidx <= bp[2]) or (cidx >= 0 and cidx <= bp[2]))):
+                    break
+
+            if bpc in bps_dict:
+                fragment = (bpo, bpc)
+                if fragment not in continous_fragments:
+                    continous_fragments.append(fragment)
+                else:
+                    wrong = True
+                    break
+                bpo = bps_dict[bpc] + 1
+                pairs.append(sorted([bpc + 1, bps_dict[bpc] + 1]))
+            else:
+                wrong = True
+                break
+            complexity = complexity + 1
+
+
+        if complexity >= 3 and not wrong:
+            loop_outermost_bps.append((bp, complexity))
+            out_list.append([complexity, pairs])
+    return out_list, loop_outermost_bps
+
+def check(list1, val):
+    return(all(x < val for x in list1))
+
+def identify_base_pairs(structure_2d, mode, bps, bps_dict):
+    stacks = []
+    for i in range(len(BP_O)):
+        stacks.append([])
+    for i, v in enumerate(structure_2d):
+        oidx = BP_O.find(v)
+        cidx = BP_C.find(v)
+        if (mode == 0 and oidx == 0) or (mode != 0 and oidx >= 0):
+            stacks[oidx].append(i)
+        elif (mode == 0 and cidx == 0) or (mode != 0 and cidx >= 0):
+            j = stacks[cidx].pop()
+            bps.append((j+1,i+1,cidx))
+            bps_dict[j] = i
+            bps_dict[i] = j
+    bps.sort(key = lambda x: x[0])
+
+def takeFirst(elem):
+    return elem[0]
+
+def find_junction(db_sequence, common_stem_length_calc = True):
+    mode = 1
+    bps = []
+    fragments = []
+    bps_dict = {}
+    bps_dict.clear()
+    list_of_junctions =[]
+    output = []
+    identify_base_pairs(db_sequence, mode, bps, bps_dict)
+    outer_bps = []
+    identify_outer_bps(bps, outer_bps)
+    loop_outermost_bps = []
+    list_of_junctions, outermost_bps = identify_loop_outermost_bps(db_sequence, bps_dict, outer_bps, mode, loop_outermost_bps)
+    for bp in outermost_bps:
+        ((i, j, order), complexity) = bp
+        fragments.append(create_fragments(complexity, (i, j, order), mode, db_sequence, bps_dict))
+    if list_of_junctions:
+        for junction in list_of_junctions:
+            junction[1].sort(key=takeFirst)
+            output += [[*junction, common_stem_length(db_sequence, junction[1])]]
+    for f in fragments:
+        f.sort(key=takeFirst)
+    return output, fragments
+
+def create_fragments(complexity, outermost_bp, mode, structure_2d, bps_dict):
+    bpo = outermost_bp[0]
+    summary = []
+    while(complexity > 0):
+        for bpc in range(bpo,len(structure_2d)):
+            oidx = BP_O.find(structure_2d[bpc])
+            cidx = BP_C.find(structure_2d[bpc])
+            if (mode == 0 and (oidx == 0 or cidx == 0)) or (mode != 0 and ((oidx >= 0 and oidx <= outermost_bp[2]) or (cidx >= 0 and cidx <= outermost_bp[2]))):
+                summary.append([bpo-1, bpc+1])
+                complexity = complexity - 1
+                break
+        bpo = bps_dict[bpc]+1
+    return summary
+
+def find_junction_mode_single(db_sequence, junction_start, common_stem_length_calc = True):
     stems_identified = 0
     list_of_pairs = []
     if db_sequence[junction_start] == "(":
@@ -89,30 +186,41 @@ def find_junction(db_sequence, junction_start, common_stem_length_calc = True):
     else:
         return False, stems_identified, list_of_pairs
 
+def identify_outer_bps(bps, outer_bps):
+    for i, v in enumerate(bps):
+        if i == len(bps)-1:
+            outer_bps.append(v)
+        if i < len(bps)-1:
+            (i1,j1,l1) = v
+            (i2,j2,l2) = bps[i+1]
+            if not ((i2 == i1 + 1) and (j2 == j1 - 1) and l1 == l2):
+                outer_bps.append(v)
 
 def common_stem_length(db_sequence, list_of_pairs):
     length_table = []
     pair_length_table = []
     for i,pair in enumerate(list_of_pairs):
+        char_start = db_sequence[pair[0]-1]
+        char_end = db_sequence[pair[1]-1]
         start = pair[0]-1
         open_count = 0
         end = pair[1]-1
         end_count = 0
         if i == 0:
-            while db_sequence[start] == '(' and start >= 0:
+            while db_sequence[start] == char_start and start >= 0:
                 start -=1
                 open_count += 1
         else:
-            while db_sequence[start] == '(':
+            while db_sequence[start] == char_start:
                 start +=1
                 open_count += 1
         length_table.append(open_count)
         if i == 0:
-            while db_sequence[end] == ')' and end < len(db_sequence)-1:
+            while db_sequence[end] == char_end and end < len(db_sequence)-1:
                 end +=1
                 end_count += 1
         else:
-            while db_sequence[end] == ')':
+            while db_sequence[end] == char_end:
                 end -=1
                 end_count += 1
         length_table.append(end_count)

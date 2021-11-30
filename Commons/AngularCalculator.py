@@ -60,7 +60,9 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     try:
         structure = get_structure(pdb_data_folder, structure_name)
     except:
-        return [], [], '', base_list_of_points, False
+        with open('err.txt', 'a+') as f:
+            f.write(structure_name)
+        return [], [], '', [], base_list_of_points, False
 
     model = structure[0]
     chain_test = []
@@ -170,7 +172,10 @@ def save_structure(structure, list_of_stem_pairs, structure_PDB_ID, list_of_resi
     if not is_non_zero_file('./output/structures/' + (structure_PDB_ID + ".cif")):
         io=MMCIFIO()
         io.set_structure(structure)
+
         name_of_file = structure_PDB_ID + '_' + str(len(list_of_stem_pairs)) + 'WJ' + '_' + stems_location + '.cif'
+        if len(name_of_file)>255:
+            name_of_file = name_of_file[0:251] + '.cif'
         io.save('./output/structures/' + name_of_file, StructureSelection2(list_of_residues))
     return name_of_file
 

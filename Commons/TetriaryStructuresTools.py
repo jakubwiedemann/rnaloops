@@ -119,12 +119,12 @@ def generate_fragments(list_of_pairs):
     fragments = []
     for elements in range(1, len(list_of_pairs)):
         if elements == 1:
-            fragments.append([list_of_pairs[0][0], list_of_pairs[elements][0]])
+            fragments.append(sorted([list_of_pairs[0][0], list_of_pairs[elements][0]]))
         elif elements == len(list_of_pairs)-1:
-            fragments.append([list_of_pairs[elements - 1][1], list_of_pairs[elements][0]])
-            fragments.append([list_of_pairs[elements][1], list_of_pairs[0][1]])
+            fragments.append(sorted([list_of_pairs[elements - 1][1], list_of_pairs[elements][0]]))
+            fragments.append(sorted([list_of_pairs[elements][1], list_of_pairs[0][1]]))
         else:
-            fragments.append([list_of_pairs[elements - 1][1], list_of_pairs[elements][0]])
+            fragments.append(sorted([list_of_pairs[elements - 1][1], list_of_pairs[elements][0]]))
     return fragments
 
 

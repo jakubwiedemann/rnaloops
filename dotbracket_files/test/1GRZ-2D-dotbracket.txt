@@ -1,6 +1,0 @@
->strand_A
-gACCGUCAAAUUGCGGGAAAGGGGUCAACAGCCGUUCAGUACCAAGUCUCAGGGGAAACUUUGAGAUGGCCUUGCAAAGGGUAUGGUAAUAAGCUGACGGACAUGGUCCUAACCACGCAGCCAAGUCCUAAGUCAACAGGAGACUGUUGAUAUGGAUGCAGUUCACAGACUAAAUGUCGGUCGGGGAAGAUGUAUUCUUCUCAUAAGAUAUAGUCGGACCUCUCCCGAAAGGGAGUUGGAGUACUCG
-(((((.((...((((((...((((((.....(((.((((.(((...((((((((....))))))))...((.......))....)))......)))))))....))))))..)).)))).(...((((..(((((((.(....).)))))).)))))...)....[.[.[[[..)).))))).(.(((((.....))))).)........]]].]]((.(.(((((....)))))..)......)).
->strand_B
-gACCGUCAAAUUGCGGGAAAGGGGUCAACAGCCGUUCAGUACCAAGUCUCAGGGGAAACUUUGAGAUGGCCUUGCAAAGGGUAUGGUAAUAAGCUGACGGACAUGGUCCUAACCACGCAGCCAAGUCCUAAGUCAACAGGAGACUGUUGAUAUGGAUGCAGUUCACAGACUAAAUGUCGGUCGGGGAAGAUGUAUUCUUCUCAUAAGAUAUAGUCGGACCUCUCCCGAAAGGGAGUUGGAGUACUCG
-(((((.((.......((...((((((.....(((.((((.(((...((((((((....))))))))...((.......))....)))......)))))))....))))))..)).....(....((((..(((((((.(....).)))))).)))))....)...[..[[[...)).)))))(.(((.((.....)).)))).........]]].].....(((((....)))))............
