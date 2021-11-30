@@ -113,32 +113,13 @@ def xml_generate_single_rec(record):
 
     tree.write("./output/single_records/"+record.name +".xml", pretty_print=True)
 
-
-def run():
-    xml_files = glob.glob("./output/single_records/*.xml")
-    xml_element_tree = None
-    for xml_file in xml_files:
-        data = ET.parse(xml_file).getroot()
-        # print ET.tostring(data)
-        for result in data.iter('File'):
-            if xml_element_tree is None:
-                xml_element_tree = data
-                insertion_point = xml_element_tree.findall("./File")[0]
-            else:
-                insertion_point.extend(result)
-    if xml_element_tree is not None:
-
-        tree = ET.ElementTree(xml_element_tree)
-
-        tree.write("./output/merged.xml", pretty_print=True)
-
-def newRunRun():
+def mergeXMLs():
 
     xml_files = glob.glob("./output/single_records/*.xml")
-    f = open("merged1.xml", "w")
+    f = open("./output/RESULTS.xml", "w")
     f.write("<File>\n")
     for xmlFile in xml_files:
-        f1 = open(xmlFile,"r")
+        f1 = open(xmlFile, "r")
         lines = f1.readlines()
         lines = lines[1:-1]
         f.writelines(lines)
