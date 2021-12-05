@@ -139,7 +139,7 @@ def finalXMLs():
     f.close()
 
 def calculate_cutoff():
-    root = ET.parse('"./output/RESULTS.xml"').getroot()
+    root = ET.parse("./output/RESULTS.xml").getroot()
     list_of_junctions = []
 
     for junctions in root.findall('./PDB_Structure/Junction'):
