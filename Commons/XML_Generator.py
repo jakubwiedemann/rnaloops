@@ -2,7 +2,8 @@
 from lxml import etree as ET
 from Commons.Utilities import extract, extract_XML
 import glob
-
+import re
+import numpy as np
 
 def xml_generate(list_of_records):
 
@@ -125,3 +126,51 @@ def mergeXMLs():
         f.writelines(lines)
     f.write("</File>")
     f.close()
+
+def finalXMLs():
+    cutoff_threshold = calculate_cutoff()
+    xml_files = glob.glob("./output/single_records/*.xml")
+    f = open("./output/FINAL_RESULTS.xml", "w")
+    f.write("<File>\n")
+    for xmlFile in xml_files:
+        lines = remove_outliers(xmlFile, cutoff_threshold)
+        f.writelines(lines)
+    f.write("</File>")
+    f.close()
+
+def calculate_cutoff():
+    root = ET.parse('"./output/RESULTS.xml"').getroot()
+    list_of_junctions = []
+
+    for junctions in root.findall('./PDB_Structure/Junction'):
+        list_of_junctions.append(junctions.find('field1').text)
+
+    values, counts = np.unique(list_of_junctions, return_counts=True)
+    list_of_tuples = []
+    for v, c in zip(values, counts):
+        list_of_tuples.append([int(re.findall('\d+', str(v))[0]), c])
+
+
+    list_of_tuples.sort(reverse=True)
+    all = sum(i[1] for i in list_of_tuples)
+    partial_sum = 0
+
+    for c, e in enumerate(list_of_tuples):
+        partial_sum += e[1]
+        if (partial_sum/all > 0.01):
+            break
+    return list_of_tuples[c][0]
+
+def remove_outliers(xmlFile, cutoff_threshold):
+    root = ET.parse(xmlFile).getroot()
+
+    for test in root.findall('./PDB_Structure'):
+        for junctions in test.findall('Junction'):
+            if(int(re.findall('\d+', str(junctions.find('field1').text))[0]) > cutoff_threshold):
+                test.remove(junctions)
+
+    xml_str = ET.tostring(root, encoding='unicode')
+    lines = xml_str.split('\n')
+    lines = lines[1:-1]
+    lines = [s + '\n' for s in lines]
+    return lines

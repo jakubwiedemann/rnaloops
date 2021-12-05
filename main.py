@@ -37,6 +37,7 @@ if __name__ == "__main__":
                 print('No files provided!')
         elif sys.argv[1].upper() == 'MERGE':
             Commons.XML_Generator.mergeXMLs()
+            Commons.XML_Generator.finalXMLs()
         else:
             print('Please pass valid arguments')
     else:
