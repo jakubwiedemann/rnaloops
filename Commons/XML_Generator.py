@@ -117,7 +117,7 @@ def xml_generate_single_rec(record):
 def mergeXMLs():
 
     xml_files = glob.glob("./output/single_records/*.xml")
-    f = open("./output/RESULTS.xml", "w")
+    f = open("./output/RESULTS_ALL_IDENTIFIED.xml", "w")
     f.write("<File>\n")
     for xmlFile in xml_files:
         f1 = open(xmlFile, "r")
@@ -130,7 +130,7 @@ def mergeXMLs():
 def finalXMLs():
     cutoff_threshold = calculate_cutoff()
     xml_files = glob.glob("./output/single_records/*.xml")
-    f = open("./output/FINAL_RESULTS.xml", "w")
+    f = open("./output/RESULTS.xml", "w")
     f.write("<File>\n")
     for xmlFile in xml_files:
         lines = remove_outliers(xmlFile, cutoff_threshold)
@@ -139,7 +139,7 @@ def finalXMLs():
     f.close()
 
 def calculate_cutoff():
-    root = ET.parse("./output/RESULTS.xml").getroot()
+    root = ET.parse("./output/RESULTS_ALL_IDENTIFIED.xml").getroot()
     list_of_junctions = []
 
     for junctions in root.findall('./PDB_Structure/Junction'):
