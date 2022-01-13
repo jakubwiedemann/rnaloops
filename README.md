@@ -1,4 +1,4 @@
-# RNAloops
+# RNAloops engine
 
 ##REQUIREMENTS
 Basic requirements:
