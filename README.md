@@ -1,4 +1,4 @@
-# nWayJunction_release
+# RNAloops
 
 ##REQUIREMENTS
 Basic requirements:
