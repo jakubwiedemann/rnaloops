@@ -66,6 +66,7 @@ def identify_loop_outermost_bps(structure_2d, bps_dict, outer_bps, mode, loop_ou
     out_list = []
     for i, bp in enumerate(outer_bps):
         pairs = []
+        pairs1 = []
         complexity = 0
         bpo = bpc = bp[0]
         wrong = False
@@ -81,11 +82,13 @@ def identify_loop_outermost_bps(structure_2d, bps_dict, outer_bps, mode, loop_ou
                 fragment = (bpo, bpc)
                 if fragment not in continous_fragments:
                     continous_fragments.append(fragment)
+                    pairs1.append(sorted([fragment[0], bps_dict[fragment[0]-1]+1]))
                 else:
                     wrong = True
                     break
                 bpo = bps_dict[bpc] + 1
                 pairs.append(sorted([bpc + 1, bps_dict[bpc] + 1]))
+
             else:
                 wrong = True
                 break
@@ -132,16 +135,18 @@ def find_junction(db_sequence, common_stem_length_calc = True):
     identify_outer_bps(bps, outer_bps)
     loop_outermost_bps = []
     list_of_junctions, outermost_bps = identify_loop_outermost_bps(db_sequence, bps_dict, outer_bps, mode, loop_outermost_bps)
+    order_list = []
     for bp in outermost_bps:
         ((i, j, order), complexity) = bp
         fragments.append(create_fragments(complexity, (i, j, order), mode, db_sequence, bps_dict))
+        order_list.append(order)
     if list_of_junctions:
         for junction in list_of_junctions:
             junction[1].sort(key=takeFirst)
             output += [[*junction, common_stem_length(db_sequence, junction[1])]]
     for f in fragments:
         f.sort(key=takeFirst)
-    return output, fragments
+    return output, fragments, order_list
 
 def create_fragments(complexity, outermost_bp, mode, structure_2d, bps_dict):
     bpo = outermost_bp[0]

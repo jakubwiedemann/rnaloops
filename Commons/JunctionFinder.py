@@ -4,7 +4,8 @@ from Commons.DataStructures import Junction, Stem, Connector
 from Commons.SecondaryStructureTools import find_junction, fill_secondary
 from Commons.TetriaryStructuresTools import generate_fragments
 from Commons.Utilities import pairs_generator, extract
-
+import itertools
+from collections import Counter
 
 
 class JunctionFinder:
@@ -20,7 +21,7 @@ class JunctionFinder:
 
         types_of_junction = []
         list_of_junctions = []
-        found_junctions,segments_ranges = find_junction(text)
+        found_junctions,segments_ranges, order_list = find_junction(text)
         if found_junctions:
             for k, j in enumerate(found_junctions):
                 number_of_stems = j[0]
@@ -33,13 +34,16 @@ class JunctionFinder:
                 current_junction.sequence = ''
                 current_junction.list_of_segment_db = ''
 
-                #segments_ranges= []
-                #segments_ranges = generate_fragments(position_of_connectors)
-                #segments_ranges = [[p[0]+1, p[1]-1] if p[0]+1<=p[1]-1 else [] for p in segments_ranges]
-
                 list_of_pairs = [position_of_connectors]
                 base_list_of_pairs = list_of_pairs
-                if opt_max_stem_length:
+
+                if order_list[k]>0:
+                    opt_max_stem_length = [[1 for x in opt_max_stem_length[0]]]
+                    list_of_pairs = [*list_of_pairs, list_of_pairs[0]]
+                    list_of_pairs = [*list_of_pairs, list_of_pairs[0]]
+                    list_of_pairs = [*list_of_pairs, segments_ranges[k]]
+
+                elif opt_max_stem_length:
                     limited = [[3 if x >= 3 else x for x in opt_max_stem_length[0]]]
                     list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs(limited, number_of_stems, position_of_connectors)]
                     list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs(opt_max_stem_length, number_of_stems, position_of_connectors)]
@@ -63,8 +67,7 @@ class JunctionFinder:
                 current_junction.segment_length.append(3)
 
                 list_of_fragments = segments_ranges[k]
-                #segments_ranges = generate_fragments(position_of_connectors)
-                #segments_ranges = [[p[0]+1, p[1]-1] for p in segments_ranges]
+
                 segment_ranges_ids = id_pairs
 
                 list_db = []
@@ -85,7 +88,42 @@ class JunctionFinder:
                 for connector in pairs_generator(range(len(list_of_connectors))):
                     connector_pairs.append(connector)
                 connector_pairs.insert(0, connector_pairs.pop())
-                current_junction.list_of_stems = [JunctionFinder.set_stem_record(opt_max_stem_length[0], connector_id, sequence, position_of_connectors, connector_pairs) for connector_id in range(number_of_stems)]
+                connector_pairs1 = []
+                pos_list = []
+                all_pos = []
+                for c_id, x in enumerate(position_of_connectors):
+                    pos1 = []
+                    pos2 = []
+                    for c1_id, y in enumerate(list_of_fragments):
+
+                        if(y[0]<=x[0]<=y[1]):
+                            pos1.append(c1_id)
+
+                        if(y[0]<=x[1]<=y[1]):
+                            pos2.append(c1_id)
+                    if len(pos1) ==1 or len(pos2)==1:
+                        pos_list= (pos1[0], pos2[0])
+                    elif len(pos1) >1 or len(pos2)>1:
+                        pos_list= (pos1, pos2)
+                    all_pos.append(sorted(pos_list))
+                for pz, element in enumerate(all_pos):
+
+                    if type(element[0]) is not int:
+
+                        positions_to_alter = []
+                        for pz1, el in enumerate(all_pos):
+                            if el == element:
+
+                                positions_to_alter.append(pz1)
+                        cnt1= 0
+                        cnt2 = len(positions_to_alter)
+                        for c in positions_to_alter:
+                            all_pos[c] = [all_pos[c][0][cnt1], all_pos[c][1][cnt2-1]]
+                            cnt1 +=1
+                            cnt2 -=1
+
+                connector_pairs1 = all_pos
+                current_junction.list_of_stems = [JunctionFinder.set_stem_record(opt_max_stem_length[0], connector_id, sequence, position_of_connectors, connector_pairs1) for connector_id in range(number_of_stems)]
                 current_junction.list_of_connectors.append(list_of_connectors)
                 list_of_junctions.append(current_junction)
                 types_of_junction.append(number_of_stems)
