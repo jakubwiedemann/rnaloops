@@ -144,9 +144,23 @@ def find_junction(db_sequence, common_stem_length_calc = True):
         for junction in list_of_junctions:
             junction[1].sort(key=takeFirst)
             output += [[*junction, common_stem_length(db_sequence, junction[1])]]
+    #for f in fragments:
+        #f.sort(key=takeFirst)
     for f in fragments:
-        f.sort(key=takeFirst)
+        f = find_minimal(f)
     return output, fragments, order_list
+
+def find_minimal(fragments):
+    min_val = fragments[0][0]
+    k = 0
+    for x, el in enumerate(fragments):
+        if el[0] < min_val:
+            min_val = el[0]
+            k = x
+
+    for i in range(0, k):
+        fragments.append(fragments.pop(0))
+    return fragments
 
 def create_fragments(complexity, outermost_bp, mode, structure_2d, bps_dict):
     bpo = outermost_bp[0]
