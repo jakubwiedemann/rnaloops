@@ -7,7 +7,7 @@ from pathlib import Path
 from Bio.PDB.mmcifio import MMCIFIO
 from Bio.PDB import MMCIF2Dict
 
-from Commons.TetriaryStructuresTools import StructureSelection2, points_to_vector_converter, generate_fragments, remove_HOH_from_model, standardize_model
+from Commons.TetriaryStructuresTools import StructureSelection2, points_to_vector_converter, generate_fragments, remove_HOH_from_model, standardize_model, generate_fragments_w_pseudo
 from Commons.Utilities import is_non_zero_file, pairs_generator
 
 
@@ -43,8 +43,10 @@ def euler_angle_calculator(first_stem,second_stem):
     angle_z = np.nan_to_num(vg.angle(np.array([first_stem[0], first_stem[1], first_stem[2]]), np.array([second_stem[0], second_stem[1], second_stem[2]]), look=vg.basis.z))
     return [format(angle_x, '.3f'), format(angle_y, '.3f'), format(angle_z, '.3f')]
 
+def takeLast(elem):
+    return elem[-1]
+
 def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structure_chains, save_substructure = True):
-    print(structure_name)
 
     list_of_points = []
     list_of_euler_angles = []
@@ -117,7 +119,7 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
     if save_substructure:
         all_included_residues = []
         frag = []
-        pairs = generate_fragments(list_of_residues_to_save)
+        pairs = generate_fragments_w_pseudo(list_of_residues_to_save)
 
         for pair in pairs:
 

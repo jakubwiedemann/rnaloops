@@ -6,6 +6,9 @@ from Commons.TetriaryStructuresTools import generate_fragments
 from Commons.Utilities import pairs_generator, extract
 import itertools
 from collections import Counter
+import pandas as pd
+import copy
+
 
 
 class JunctionFinder:
@@ -15,6 +18,25 @@ class JunctionFinder:
         self.name_of_structure = name_of_structure
         self.chains = chains
         self.method = method
+
+    @classmethod
+    def extend_list_of_pairs_w_pseudo1(cls, list_of_pairs):
+        list_of_pairs_copy = list_of_pairs
+        list_of_pairs = list(itertools.chain(*list_of_pairs))
+        list_of_pairs.sort()
+        list_of_pairs = list_of_pairs[1::2]
+        dict = {}
+        for el in list_of_pairs:
+            dict[el] = el +1
+        for k,c in enumerate(list_of_pairs_copy):
+            #if k ==0:
+                #list_of_pairs_copy[k][0] = list_of_pairs_copy[k][0]-1
+            if list_of_pairs_copy[k][0] in dict.keys():
+                list_of_pairs_copy[k][0] = dict[list_of_pairs_copy[k][0]]
+            if list_of_pairs_copy[k][1] in dict.keys():
+                list_of_pairs_copy[k][1] = dict[list_of_pairs_copy[k][1]]
+        return [list_of_pairs_copy]
+
 
     @staticmethod
     def find_junctions(text, sequence, name_of_structure, chains, method):
@@ -33,14 +55,15 @@ class JunctionFinder:
                 current_junction.segment_length =[]
                 current_junction.sequence = ''
                 current_junction.list_of_segment_db = ''
-
-                list_of_pairs = [position_of_connectors]
+                lt_cp = copy.deepcopy(position_of_connectors)
+                list_of_pairs = [lt_cp]
                 base_list_of_pairs = list_of_pairs
 
                 if order_list[k]>0:
                     opt_max_stem_length = [[1 for x in opt_max_stem_length[0]]]
-                    list_of_pairs = [*list_of_pairs, list_of_pairs[0]]
-                    list_of_pairs = [*list_of_pairs, list_of_pairs[0]]
+                    list_of_pairs = [*list_of_pairs, lt_cp]
+                    list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs_w_pseudo1(lt_cp)]
+                    #list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs(opt_max_stem_length, number_of_stems, position_of_connectors)]
                     list_of_pairs = [*list_of_pairs, segments_ranges[k]]
 
                 elif opt_max_stem_length:
@@ -186,4 +209,5 @@ class JunctionFinder:
 
     def max_le(seq, val):
         max_val =  max([v for v in seq])
+
 

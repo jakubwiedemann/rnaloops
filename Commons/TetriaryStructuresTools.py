@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import re
 from Bio.PDB import *
+import itertools
 
 
 def remove_nonRNA_atoms_from_model(model):
@@ -127,6 +128,16 @@ def generate_fragments(list_of_pairs):
             fragments.append(sorted([list_of_pairs[elements - 1][1], list_of_pairs[elements][0]]))
     return fragments
 
+def generate_fragments_w_pseudo(list_of_pairs):
+    fragments = []
+    short_pairs = list(itertools.chain(*list_of_pairs))
+    short_pairs.sort(key = takeLast)
+    for elements in range(0, len(list_of_pairs)):
+        fragments.append([short_pairs[elements*2], short_pairs[(elements*2)+1]])
+    return fragments
+
+def takeLast(elem):
+    return elem[-1]
 
 class StructureSelection(Select):
     def __init__(self, list_of_residues):
