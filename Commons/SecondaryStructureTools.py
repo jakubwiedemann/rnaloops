@@ -51,13 +51,16 @@ def fill_secondary(conectors, text):
     connectors_ss = []
     chars = ['.','(',')']
     for connector in conectors:
-        for nucl_no in range(connector[0],connector[1]):
-            if text[nucl_no] not in chars:
-                paired_bracket_loc = find_matching_char(text[nucl_no], text, nucl_no)
-                if all(paired_bracket_loc not in range(pair[0],pair[1]) for pair in conectors):
-                    text = text[:nucl_no] + '.' + text[nucl_no+1:]
-                    text = text[:paired_bracket_loc] + '.' + text[paired_bracket_loc+1:]
-        connectors_ss.append(text[connector[0]:connector[1]])
+        if connector[1]-1 == connector[0]+1:
+            return connectors_ss, text
+        else:
+            for nucl_no in range(connector[0]+1,connector[1]-1):
+                if text[nucl_no] not in chars:
+                    paired_bracket_loc = find_matching_char(text[nucl_no], text, nucl_no)
+                    if all(paired_bracket_loc not in range(pair[0],pair[1]) for pair in conectors):
+                        text = text[:nucl_no] + '.' + text[nucl_no+1:]
+                        text = text[:paired_bracket_loc] + '.' + text[paired_bracket_loc+1:]
+            connectors_ss.append(text[connector[0]:connector[1]])
     return connectors_ss, text
 
 
@@ -170,7 +173,7 @@ def create_fragments(complexity, outermost_bp, mode, structure_2d, bps_dict):
             oidx = BP_O.find(structure_2d[bpc])
             cidx = BP_C.find(structure_2d[bpc])
             if (mode == 0 and (oidx == 0 or cidx == 0)) or (mode != 0 and ((oidx >= 0 and oidx <= outermost_bp[2]) or (cidx >= 0 and cidx <= outermost_bp[2]))):
-                summary.append([bpo-1, bpc+1])
+                summary.append([bpo, bpc+1])
                 complexity = complexity - 1
                 break
         bpo = bps_dict[bpc]+1
@@ -226,7 +229,8 @@ def common_stem_length(db_sequence, list_of_pairs):
         end = pair[1]-1
         end_count = 0
         if i == 0:
-            while db_sequence[start] == char_start and start >= 0:
+
+            while db_sequence[start] == char_start and start > 0:
                 start -=1
                 open_count += 1
         else:
@@ -235,6 +239,7 @@ def common_stem_length(db_sequence, list_of_pairs):
                 open_count += 1
         length_table.append(open_count)
         if i == 0:
+
             while db_sequence[end] == char_end and end < len(db_sequence)-1:
                 end +=1
                 end_count += 1

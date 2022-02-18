@@ -99,13 +99,14 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
         base_list_of_atoms = [[atom.get_vector()[0],atom.get_vector()[1],atom.get_vector()[2]] for atom in base_atoms_to_include]
 
         base_list_of_points = [*base_list_of_points, centroid_calculator(base_list_of_atoms)]
+
     center_of_junction = centroid_calculator(base_list_of_points)
 
     for bp in list_of_stem_pairs[3]:
         if bp:
             conn_residue_1 = get_residue(chain_test, bp[0])
             conn_residue_2 = get_residue(chain_test, bp[1])
-            #print(conn_residue_1.resname)
+
             conn_list_of_residues = [*conn_list_of_residues, [[conn_residue_1.full_id ,conn_residue_1.resname], [conn_residue_2.full_id],conn_residue_2.resname]]
         else:
             conn_list_of_residues = [*conn_list_of_residues, ['','']]
@@ -126,10 +127,9 @@ def calculate_euler_angles_pairwise(list_of_stem_pairs, structure_name, structur
             for x in range(pair[0][1], pair[1][1]):
                 all_included_residues.append(get_residue(chain_test, x, True))
             opening_residue = get_residue(chain_test, pair[0][1], True)
-            closing_residue = get_residue(chain_test,  pair[1][1]-1, True)
+            closing_residue = get_residue(chain_test,  pair[1][1], True)
             filename = [*filename, [str(opening_residue[2])+ '-' +str(opening_residue[3][1]) , str(closing_residue[2])+ '-' +str(closing_residue[3][1])]]
 
-        #print(all_included_residues)
         name_of_file = save_structure(structure, filename, structure_name, all_included_residues)
 
     else:

@@ -57,12 +57,13 @@ class JunctionFinder:
                 current_junction.list_of_segment_db = ''
                 lt_cp = copy.deepcopy(position_of_connectors)
                 list_of_pairs = [lt_cp]
-                base_list_of_pairs = list_of_pairs
+                extended_of_pairs = copy.deepcopy(position_of_connectors)
 
                 if order_list[k]>0:
                     opt_max_stem_length = [[1 for x in opt_max_stem_length[0]]]
                     list_of_pairs = [*list_of_pairs, lt_cp]
-                    list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs_w_pseudo1(lt_cp)]
+                    list_of_pairs = [*list_of_pairs, lt_cp]
+                    #list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs_w_pseudo1(extended_of_pairs)]
                     #list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs(opt_max_stem_length, number_of_stems, position_of_connectors)]
                     list_of_pairs = [*list_of_pairs, segments_ranges[k]]
 
@@ -70,6 +71,7 @@ class JunctionFinder:
                     limited = [[3 if x >= 3 else x for x in opt_max_stem_length[0]]]
                     list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs(limited, number_of_stems, position_of_connectors)]
                     list_of_pairs = [*list_of_pairs, *JunctionFinder.extend_list_of_pairs(opt_max_stem_length, number_of_stems, position_of_connectors)]
+
                     list_of_pairs = [*list_of_pairs, segments_ranges[k]]
                 euler_collection = []
                 planar_collection = []
@@ -96,12 +98,20 @@ class JunctionFinder:
                 list_db = []
                 list_db, srt_db = fill_secondary(list_of_fragments,text)
                 for i, pair in enumerate(list_of_fragments):
-                    if i == len(list_of_fragments)-1:
-                        sequence1=(srt_db[pair[0]+1 - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][0]-1])
-                        list_of_segment_db=(sequence[pair[0]+1 - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][0]-1])
+                    if i == len(list_of_fragments)-1 and order_list[k] ==0:
+                        sequence1=(srt_db[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][0]+1])
+                        list_of_segment_db=(sequence[pair[0]- opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][0]+1])
+                    elif i == len(list_of_fragments)-1 and order_list[k] >0:
+                        sequence1=(srt_db[pair[0] - opt_max_stem_length[0][i]:pair[1]])
+                        list_of_segment_db=(sequence[pair[0]- opt_max_stem_length[0][i]:pair[1]])
+
+                    elif i == 0 and order_list[k] ==0:
+                        sequence1=(srt_db[pair[0] - opt_max_stem_length[0][i]-1:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
+                        list_of_segment_db=(sequence[pair[0] - opt_max_stem_length[0][i]-1:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
+
                     else:
-                        sequence1=(srt_db[pair[0]+1 - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
-                        list_of_segment_db=(sequence[pair[0]+1 - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
+                        sequence1=(srt_db[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
+                        list_of_segment_db=(sequence[pair[0] - opt_max_stem_length[0][i]:pair[1]+opt_max_stem_length[0][i+1]-1]) + '-'
                     current_junction.sequence += sequence1
                     current_junction.list_of_segment_db += list_of_segment_db
 
@@ -146,7 +156,8 @@ class JunctionFinder:
                             cnt2 -=1
 
                 connector_pairs1 = all_pos
-                current_junction.list_of_stems = [JunctionFinder.set_stem_record(opt_max_stem_length[0], connector_id, sequence, position_of_connectors, connector_pairs1) for connector_id in range(number_of_stems)]
+
+                current_junction.list_of_stems = [JunctionFinder.set_stem_record(opt_max_stem_length[0], connector_id, sequence, position_of_connectors, connector_pairs1, order_list[k] ) for connector_id in range(number_of_stems)]
                 current_junction.list_of_connectors.append(list_of_connectors)
                 list_of_junctions.append(current_junction)
                 types_of_junction.append(number_of_stems)
@@ -160,8 +171,8 @@ class JunctionFinder:
         current_pair = []
         for i in range(number_of_stems):
             if i ==0:
-                start = position_of_connectors[i][0]  - max_stem_length[0][i] +1 if position_of_connectors[i][0]  - max_stem_length[0][i] +1 >=0 else position_of_connectors[i][0]
-                end =  position_of_connectors[i][1]  + max_stem_length[0][i] if position_of_connectors[i][0]  - max_stem_length[0][i] +1 >=0 else position_of_connectors[i][1]
+                start = position_of_connectors[i][0]  - max_stem_length[0][i] if position_of_connectors[i][0]  - max_stem_length[0][i]  >=0 else position_of_connectors[i][0]
+                end =  position_of_connectors[i][1]  + max_stem_length[0][i] if position_of_connectors[i][0]  - max_stem_length[0][i]  >=0 else position_of_connectors[i][1]
             else:
                 start = position_of_connectors[i][0]  + max_stem_length[0][i]
                 end =  position_of_connectors[i][1]  - max_stem_length[0][i] + 1
@@ -170,7 +181,7 @@ class JunctionFinder:
         return extended_list_of_pairs
 
     @classmethod
-    def set_stem_record(cls, max_stem_length, connector_id, sequence, position_of_connectors, connector_pairs):
+    def set_stem_record(cls, max_stem_length, connector_id, sequence, position_of_connectors, connector_pairs, k):
         current_stem = Stem()
         current_stem.segment_length = ''
 
@@ -178,16 +189,16 @@ class JunctionFinder:
         current_stem.sequence = []
 
 
-        current_stem.segment_length = max_stem_length[connector_id]
-        if connector_id ==0:
-            start = sequence[position_of_connectors[connector_id][0] - max_stem_length[connector_id]: position_of_connectors[connector_id][0]]
-            end =  sequence[position_of_connectors[connector_id][1] - 1 :position_of_connectors[connector_id][1] + max_stem_length[connector_id] -1]
+
+        if connector_id ==0 and k ==0:
+            start = sequence[position_of_connectors[connector_id][0] - max_stem_length[connector_id]-1: position_of_connectors[connector_id][0]]
+            end = sequence[position_of_connectors[connector_id][1] -1:position_of_connectors[connector_id][1] + max_stem_length[connector_id]]
         else:
             start = sequence[position_of_connectors[connector_id][0] - 1 :position_of_connectors[connector_id][0] + max_stem_length[connector_id]-1]
-            end =  sequence[position_of_connectors[connector_id][1]  - max_stem_length[connector_id]: position_of_connectors[connector_id][1]]
+            end = sequence[position_of_connectors[connector_id][1]  - max_stem_length[connector_id]: position_of_connectors[connector_id][1]]
         stem_sequence =  start + '-' + end
         current_stem.sequence.append(stem_sequence)
-
+        current_stem.segment_length = len(start)
         current_stem.list_of_connectors.append(connector_pairs[connector_id][0])
         current_stem.list_of_connectors.append(connector_pairs[connector_id][1])
         return current_stem
@@ -199,9 +210,9 @@ class JunctionFinder:
         current_connector.planar_angle = []
         current_connector.list_of_segments_ranges = fragments[i] if segments_ranges[i][0]<=segments_ranges[i][1] else ''
         current_connector.list_of_segments_ranges_id = segment_ranges_ids[i]
-        current_connector.lengths_of_segments=(pair[1] - pair[0]-2)
-        current_connector.list_of_segment_db=(text[pair[0]+1 - 1:pair[1]])
-        current_connector.list_of_segment_seq=(sequence[pair[0]+1 - 1:pair[1]])
+        current_connector.lengths_of_segments=(pair[1] - pair[0]-1)
+        current_connector.list_of_segment_db=(text[pair[0] - 1:pair[1]])
+        current_connector.list_of_segment_seq=(sequence[pair[0] - 1:pair[1]])
         current_connector.list_of_angles.append(extract(i,euler_collection))
         current_connector.planar_angle.append(extract(i, planar_collection))
         current_connector.connector_id=i
